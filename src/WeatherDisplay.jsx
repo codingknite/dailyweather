@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
 import * as MdIcons from "react-icons/md";
-import data from "./data/data";
+import Spinner from "./Spinner";
 
 const Section = styled.section`
   display: flex;
@@ -58,41 +59,91 @@ const Cond = styled.div`
 `;
 
 const WeatherDisplay = () => {
-  const weatherData = data.consolidated_weather[0]; //Weather Data      
-
-  const displayData = {
-    temp: Math.floor(weatherData.the_temp),
-    weatherState: weatherData.weather_state_name,
+  const testData = {
+    coord: {
+      lon: 32.5822,
+      lat: 0.3163,
+    },
+    weather: [
+      {
+        id: 801,
+        main: "Clouds",
+        description: "few clouds",
+        icon: "02d",
+      },
+    ],
+    base: "stations",
+    main: {
+      temp: 27,
+      feels_like: 25.84,
+      temp_min: 27,
+      temp_max: 27,
+      pressure: 1014,
+      humidity: 61,
+    },
+    visibility: 10000,
+    wind: {
+      speed: 6.17,
+      deg: 160,
+    },
+    clouds: {
+      all: 20,
+    },
+    dt: 1612365668,
+    sys: {
+      type: 1,
+      id: 2642,
+      country: "UG",
+      sunrise: 1612324823,
+      sunset: 1612368394,
+    },
+    timezone: 10800,
+    id: 232422,
+    name: "Kampala",
+    cod: 200,
   };
+
+  const [city, setCity] = useState("London");
+  const [weatherData, setWeatherData] = useState(testData);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("https://extreme-ip-lookup.com/json/")
+      .then((response) => response.data)
+      .then((data) => setCity(data.city))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const apiKey = process.env.REACT_APP_API_KEY;
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+      )
+      .then((response) => response.data)
+      .then((data) => setWeatherData(data))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [city, apiKey]);
+
+  console.log(city, weatherData);
 
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
-  const displayDate = formatDate();
 
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          };
-          console.log(pos);
+  if (error) throw error;
+  if (loading) return <Spinner />;
 
-          //TODO make API call to get locatoin @metaWeather
-        },
-        () => `Error`
-      );
-    }
-  };
-
-  getLocation();
   return (
     <Section>
       <Navigation>
-        <button>Search</button>
+        <button>Search for places</button>
         <button>
           <IoIcons.IoMdAddCircle size="2em" />
         </button>
@@ -103,20 +154,20 @@ const WeatherDisplay = () => {
       </WeatherIcon>
 
       <Metrics>
-        <WeatherTemp>{displayData.temp}</WeatherTemp>{" "}
+        <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
         <WeatherDeg>&deg;C</WeatherDeg>
       </Metrics>
 
       <br />
       <Cond>
-        <h2>{displayData.weatherState}</h2>
+        <h2>{weatherData.weather[0].main}</h2>
       </Cond>
       <br />
 
       <br />
       <Cond>
         <div>
-          <span>Today • </span> {displayDate}
+          <span>Today • </span> {formatDate()}
         </div>
       </Cond>
       <br />
@@ -126,8 +177,8 @@ const WeatherDisplay = () => {
         <div>
           <span>
             <MdIcons.MdLocationOn />
-          </span>
-          Kampala
+          </span>{" "}
+          {city}
         </div>
       </Cond>
       <br />
