@@ -10,10 +10,10 @@ const Section = styled.section`
   color: white;
 `;
 
-const Weather = () => {
+const Weather = ({ city }) => {
   return (
     <Section>
-      <WeatherDisplay />
+      <WeatherDisplay city={city} />
     </Section>
   );
 };
