@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import WeatherDisplay from "./WeatherDisplay";
+import Weather from "./Weather";
 import Highlights from "./Highlights";
 import "./App.css";
 
@@ -13,7 +13,7 @@ const Main = styled.main`
 export default function App() {
   return (
     <Main>
-      <WeatherDisplay />
+      <Weather />
       <Highlights />
     </Main>
   );
