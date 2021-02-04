@@ -54,7 +54,7 @@ TODO 1: fetch Icons for respsective weather condition
 TODO 2: Implement event handler for Search Button
 TODO 3: Add Favorites page for favorite locations
 */
-const WeatherDisplay = () => {
+const WeatherDisplay = ({ city }) => {
   const testData = {
     coord: {
       lon: 32.5822,
@@ -99,7 +99,6 @@ const WeatherDisplay = () => {
     cod: 200,
   };
 
-  const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(testData);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -122,25 +121,9 @@ const WeatherDisplay = () => {
   }
 
   useEffect(() => {
-    async function getLocation() {
-      try {
-        const response = fetch("https://extreme-ip-lookup.com/json/");
-        if (response.ok) {
-          const json = await response.json();
-          setCity(json.city);
-        }
-      } catch (error) {
-        console.log("Error: ", error);
-      }
-    }
-    getLocation();
-  }, []);
-
-  useEffect(() => {
     getWeatherData();
   }, []);
 
-  console.log(city);
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
@@ -148,6 +131,7 @@ const WeatherDisplay = () => {
 
   if (error) throw error;
   if (loading) return <Spinner />;
+  if (!city) return <Spinner />;
   return (
     <>
       <Navigation>
