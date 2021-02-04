@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
 import * as MdIcons from "react-icons/md";
 import Spinner from "./Spinner";
-
-const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 30vw;
-  background-color: #002521;
-  color: white;
-`;
 
 const Navigation = styled.div`
   /* background: firebrick; */
@@ -58,6 +49,11 @@ const Cond = styled.div`
   text-align: center;
 `;
 
+/*
+TODO 1: fetch Icons for respsective weather condition
+TODO 2: Implement event handler for Search Button
+TODO 3: Add Favorites page for favorite locations
+*/
 const WeatherDisplay = () => {
   const testData = {
     coord: {
@@ -99,39 +95,52 @@ const WeatherDisplay = () => {
     },
     timezone: 10800,
     id: 232422,
-    name: "Kampala",
+    name: "London",
     cod: 200,
   };
 
-  const [city, setCity] = useState("London");
+  const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(testData);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  async function getWeatherData() {
+    const apiKey = process.env.REACT_APP_API_KEY;
+    try {
+      const response = fetch(
+        `http://api.openweathermap.org/data/2.5/weather?q=kampala&appid=${apiKey}&units=metric`
+      );
+      if (response.ok) {
+        const json = await response.json();
+        setWeatherData(json);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    axios
-      .get("https://extreme-ip-lookup.com/json/")
-      .then((response) => response.data)
-      .then((data) => setCity(data.city))
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
+    async function getLocation() {
+      try {
+        const response = fetch("https://extreme-ip-lookup.com/json/");
+        if (response.ok) {
+          const json = await response.json();
+          setCity(json.city);
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
+    getLocation();
   }, []);
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-
   useEffect(() => {
-    axios
-      .get(
-        `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-      )
-      .then((response) => response.data)
-      .then((data) => setWeatherData(data))
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  }, [city, apiKey]);
+    getWeatherData();
+  }, []);
 
-  console.log(city, weatherData);
-
+  console.log(city);
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
@@ -139,9 +148,8 @@ const WeatherDisplay = () => {
 
   if (error) throw error;
   if (loading) return <Spinner />;
-
   return (
-    <Section>
+    <>
       <Navigation>
         <button>Search for places</button>
         <button>
@@ -178,11 +186,11 @@ const WeatherDisplay = () => {
           <span>
             <MdIcons.MdLocationOn />
           </span>{" "}
-          {city}
+          {city + ","} {weatherData.sys.country}
         </div>
       </Cond>
       <br />
-    </Section>
+    </>
   );
 };
 
