@@ -14,4 +14,4 @@ const getLocation = () => {
         .then((res) => res.json())
         .then((data) => setCity(data.city))
         .catch((error) => console.log("Error: ", error))
-};
+}
