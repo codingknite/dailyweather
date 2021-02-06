@@ -13,5 +13,5 @@ const getLocation = () => {
     fetch("https://extreme-ip-lookup.com/json/")
         .then((res) => res.json())
         .then((data) => setCity(data.city))
-        .catch((error) => console.log("Error: ", error));
+        .catch((error) => console.log("Error: ", error))
 };
