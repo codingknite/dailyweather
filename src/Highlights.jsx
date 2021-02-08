@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import * as FaIcons from "react-icons/fa";
-import data from "./data/data.json";
-
+import Spinner from "./Spinner";
 const HighlightSection = styled.section`
   width: 70vw;
   min-height: 100vh;
@@ -56,6 +55,7 @@ const WindDiv = styled.section`
 
 export default function Highlights({ city }) {
   const testResponse = {
+    // Mock data from the API
     cod: "200",
     message: 0,
     cnt: 5,
@@ -263,23 +263,47 @@ export default function Highlights({ city }) {
     },
   };
 
-  console.log(Math.floor(testResponse.list[0].main.temp_max));
+  /* 
+  TODO1: Fill In Data For Today's Highlights
+  TODO2: Fix the dates in the weather forecast tiles
+  TODO3: Implement the degree buttons
+  TODO4: Refactor the code for the application 
+  TODO5: *VERY LAST* => Style the application
+  */
+
   const [foreCast, setForeCast] = useState(testResponse);
+  const [loading, setLoading] = useState(true);
+  const isMounted = useRef(false);
 
   const apiKey = process.env.REACT_APP_API_KEY;
-  useEffect(() => {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&cnt=5&units=metric`
-    )
-      .then((response) => response.json())
-      .then((data) => setForeCast(data))
-      .catch((error) => {
-        throw error;
-      });
-  }, [apiKey, city]);
 
-  // console.log(city);
-  // console.log(foreCast);
+  useEffect(() => {
+    isMounted.current = true;
+    async function getForecast() {
+      try {
+        const response = await fetch(
+          `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&cnt=5&units=metric`
+        );
+        if (response.ok) {
+          if (isMounted.current) {
+            const json = await response.json();
+            setForeCast(json);
+          }
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("Error: >>>", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getForecast();
+    return () => {
+      isMounted.current = false;
+    };
+  }, [apiKey, city]);
 
   return (
     <HighlightSection>
@@ -290,16 +314,20 @@ export default function Highlights({ city }) {
 
       {/* WEATHER FORECAST */}
       <Section>
-        {foreCast.list.map((day) => (
-          <HighlightDiv>
-            <h4>Tomorrow</h4>
-            <FaIcons.FaCloudRain size="3em" />
-            <div className="temp">
-              <p className="max-temp">{Math.floor(day.main.temp_max)}&deg;</p>
-              <p className="min-temp">{Math.floor(day.main.temp_max)}&deg;</p>
-            </div>
-          </HighlightDiv>
-        ))}
+        {loading ? (
+          <Spinner />
+        ) : (
+          foreCast.list.map((day, index) => (
+            <HighlightDiv key={index}>
+              <h4>Tomorrow</h4>
+              <FaIcons.FaCloudRain size="3em" />
+              <div className="temp">
+                <p className="max-temp">{Math.floor(day.main.temp_max)}&deg;</p>
+                <p className="min-temp">{Math.floor(day.main.temp_min)}&deg;</p>
+              </div>
+            </HighlightDiv>
+          ))
+        )}
       </Section>
 
       {/* WEATHER HIGHLIGHTS */}
