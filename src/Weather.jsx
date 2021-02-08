@@ -17,5 +17,5 @@ const Weather = ({ city }) => {
     </Section>
   );
 };
-
+ 
 export default Weather;
