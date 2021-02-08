@@ -56,6 +56,7 @@ TODO 3: Add Favorites page for favorite locations
 */
 const WeatherDisplay = ({ city }) => {
   const testData = {
+    // Mock data from the API
     coord: {
       lon: 32.5822,
       lat: 0.3163,
@@ -103,26 +104,26 @@ const WeatherDisplay = ({ city }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getWeatherData() {
-    const apiKey = process.env.REACT_APP_API_KEY;
-    try {
-      const response = fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=kampala&appid=${apiKey}&units=metric`
-      );
-      if (response.ok) {
-        const json = await response.json();
-        setWeatherData(json);
-      }
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    async function getWeatherData() {
+      const apiKey = process.env.REACT_APP_API_KEY;
+      try {
+        const response = await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+        if (response.ok) {
+          const json = await response.json();
+          setWeatherData(json);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
     getWeatherData();
-  }, []);
+  }, [city]);
 
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
@@ -152,7 +153,7 @@ const WeatherDisplay = ({ city }) => {
 
       <br />
       <Cond>
-        <h2>{weatherData.weather[0].main}</h2>
+        <h2>{weatherData.weather[0].description}</h2>
       </Cond>
       <br />
 
