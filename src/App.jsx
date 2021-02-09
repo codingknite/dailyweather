@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Weather from "./Weather";
 import Highlights from "./Highlights";
 import "./App.css";
+import mockWeatherData from "./data/MockWeatherData";
 
 const Main = styled.main`
   background: #edf2f4;
@@ -12,6 +13,9 @@ const Main = styled.main`
 
 export default function App() {
   const [city, setCity] = useState("");
+  const [weatherData, setWeatherData] = useState(mockWeatherData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch("https://extreme-ip-lookup.com/json/")
@@ -22,10 +26,36 @@ export default function App() {
       });
   }, []);
 
+  useEffect(() => {
+    async function getWeatherData() {
+      const apiKey = process.env.REACT_APP_API_KEY;
+      try {
+        const response = await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+        if (response.ok) {
+          const json = await response.json();
+          setWeatherData(json);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getWeatherData();
+  }, [city]);
+
   return (
     <Main>
-      <Weather city={city} />
-      <Highlights city={city} />
+      <Weather
+        city={city}
+        loading={loading}
+        error={error}
+        weatherData={weatherData}
+      />
+      <Highlights city={city} weatherData={weatherData} />
     </Main>
   );
 }
