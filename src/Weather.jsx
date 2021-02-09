@@ -10,12 +10,17 @@ const Section = styled.section`
   color: white;
 `;
 
-const Weather = ({ city }) => {
+const Weather = ({ city, loading, error, weatherData }) => {
   return (
     <Section>
-      <WeatherDisplay city={city} />
+      <WeatherDisplay
+        city={city}
+        loading={loading}
+        error={error}
+        weatherData={weatherData}
+      />
     </Section>
   );
 };
- 
+
 export default Weather;
