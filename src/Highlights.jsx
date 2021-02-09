@@ -107,6 +107,25 @@ export default function Highlights({ city, weatherData }) {
   const visibilityToMiles = (visibility) =>
     (visibility / 1609).toFixed(1).toString().replace(".", ",");
 
+  const generateNextDate = (num) => {
+    const today = new Date();
+    let newDate = new Date();
+    newDate.setDate(today.getDate() + num);
+    const nextDate = newDate.toDateString().split(" ");
+    return `${nextDate[0]}, ${nextDate[2]} ${nextDate[1]}`;
+  };
+
+  // console.log(generateNextDate(1));
+
+  const followingDates = {
+    0: "Tomorrow",
+    1: generateNextDate(2),
+    2: generateNextDate(3),
+    3: generateNextDate(4),
+    4: generateNextDate(5),
+  };
+
+  console.log(followingDates);
   return (
     <HighlightSection>
       <DegreeToggle>
@@ -121,7 +140,7 @@ export default function Highlights({ city, weatherData }) {
         ) : (
           filter5Days.map((day, index) => (
             <HighlightDiv key={index}>
-              <h4>Tomorrow</h4>
+              <h4>{followingDates[index]}</h4>
               <FaIcons.FaCloudRain size="3em" />
               <div className="temp">
                 <p className="max-temp">{roundOff(day.main.temp_max)}&deg;</p>
