@@ -1,0 +1,44 @@
+2. FIX DATE IN WEATHER FORECAST TILES 
+  const dayAndDate = {
+    0: "Tomorrow",
+    1: "Tue, 9 Feb",
+    2: "Wed, 10 Feb",
+    3: "Thu, 11 Feb",
+    4: "Fri, 12 Feb",
+  };
+
+  const setDayAndDate = () => {
+    for (let x = 0; x < filter5Days.length; x++) {
+      const date = filter5Days[x].dt_txt.split(" ")[0];
+      const [, month, day] = date.split("-");
+      const today = new Date().toDateString();
+
+      console.log("Month:", month, "Day:", day, "Today:", today);
+      const monthsObject = {
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Aug",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dec",
+      };
+
+      const daysObject = {
+        1: "Mon",
+        2: "Tue",
+        3: "Wed",
+        4: "Thu",
+        5: "Fri",
+        6: "Sat",
+        7: "Sun",
+      };
+    }
+  };
+
+  setDayAndDate();
