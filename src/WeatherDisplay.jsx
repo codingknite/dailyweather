@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
@@ -50,81 +50,12 @@ const Cond = styled.div`
 `;
 
 /*
-TODO 1: fetch Icons for respsective weather condition
-TODO 2: Implement event handler for Search Button
-TODO 3: Add Favorites page for favorite locations
+TODO 1: Implement Degree Buttons
+TODO 2: fetch Icons for respsective weather condition
+TODO 3: Implement event handler for Search Button
+TODO 4: *LAST* Add Favorites page for favorite locations
 */
-const WeatherDisplay = ({ city }) => {
-  const testData = {
-    // Mock data from the API
-    coord: {
-      lon: 32.5822,
-      lat: 0.3163,
-    },
-    weather: [
-      {
-        id: 801,
-        main: "Clouds",
-        description: "few clouds",
-        icon: "02d",
-      },
-    ],
-    base: "stations",
-    main: {
-      temp: 27,
-      feels_like: 25.84,
-      temp_min: 27,
-      temp_max: 27,
-      pressure: 1014,
-      humidity: 61,
-    },
-    visibility: 10000,
-    wind: {
-      speed: 6.17,
-      deg: 160,
-    },
-    clouds: {
-      all: 20,
-    },
-    dt: 1612365668,
-    sys: {
-      type: 1,
-      id: 2642,
-      country: "UG",
-      sunrise: 1612324823,
-      sunset: 1612368394,
-    },
-    timezone: 10800,
-    id: 232422,
-    name: "London",
-    cod: 200,
-  };
-
-  const [weatherData, setWeatherData] = useState(testData);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function getWeatherData() {
-      const apiKey = process.env.REACT_APP_API_KEY;
-      try {
-        const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-        );
-        if (response.ok) {
-          const json = await response.json();
-          setWeatherData(json);
-        }
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    getWeatherData();
-  }, [city]);
-
+const WeatherDisplay = ({ city, loading, error, weatherData }) => {
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
