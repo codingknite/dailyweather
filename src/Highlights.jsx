@@ -9,20 +9,11 @@ const HighlightSection = styled.section`
   min-height: 100vh;
 `;
 
-const DegreeToggle = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 5px;
-
-  .deg-celcius {
-    margin-right: 5px;
-  }
-`;
-
 const Section = styled.section`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
+  margin-top: 12vh;
 `;
 
 const HighlightDiv = styled.div`
@@ -55,7 +46,7 @@ const WindDiv = styled.section`
   }
 `;
 
-export default function Highlights({ city, weatherData }) {
+export default function Highlights({ city, weatherData, celcius }) {
   /* 
   TODO2: Fix the dates in the weather forecast tiles
   TODO3: Implement the degree buttons
@@ -74,7 +65,9 @@ export default function Highlights({ city, weatherData }) {
     async function getForecast() {
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+          `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${
+            celcius ? "metric" : "imperial"
+          }`
         );
         if (response.ok) {
           if (isMounted.current) {
@@ -95,7 +88,7 @@ export default function Highlights({ city, weatherData }) {
     return () => {
       isMounted.current = false;
     };
-  }, [apiKey, city]);
+  }, [apiKey, city, celcius]);
 
   const filter5Days = foreCast.list.filter(
     (item, index) => index % 8 === 0 || index === 39
@@ -125,11 +118,6 @@ export default function Highlights({ city, weatherData }) {
 
   return (
     <HighlightSection>
-      <DegreeToggle>
-        <button className="deg-celcius">&deg;C</button>
-        <button>&deg;F</button>
-      </DegreeToggle>
-
       {/* WEATHER FORECAST */}
       <Section>
         {loading ? (

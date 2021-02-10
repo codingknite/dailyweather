@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
 import * as MdIcons from "react-icons/md";
+import mockWeatherCond from "./data/MockWeatherCondition";
 import Spinner from "./Spinner";
 
 const Navigation = styled.div`
@@ -49,21 +49,47 @@ const Cond = styled.div`
   text-align: center;
 `;
 
+const Img = styled.img`
+  width: 160px;
+`;
+
 /*
-TODO 1: Implement Degree Buttons
-TODO 2: fetch Icons for respsective weather condition
-TODO 3: Implement event handler for Search Button
 TODO 4: *LAST* Add Favorites page for favorite locations
 */
-const WeatherDisplay = ({ city, loading, error, weatherData }) => {
+const WeatherDisplay = ({ city, loading, error, weatherData, celcius }) => {
+  const [condition, setCondition] = useState(mockWeatherCond);
+
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
 
+  useEffect(() => {
+    async function fetchCondition() {
+      const apiKey = process.env.REACT_APP_API_KEY;
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setCondition(data);
+        }
+      } catch (error) {
+        console.log("Error: ---->", error);
+      }
+    }
+
+    fetchCondition();
+  }, [city]);
+
+  const iconLink = `http://openweathermap.org/img/wn/${condition.weather[0].icon}@2x.png`;
+
   if (error) throw error;
   if (loading) return <Spinner />;
   if (!city) return <Spinner />;
+
   return (
     <>
       <Navigation>
@@ -74,12 +100,14 @@ const WeatherDisplay = ({ city, loading, error, weatherData }) => {
       </Navigation>
 
       <WeatherIcon>
-        <FaIcons.FaCloudRain size="5em" />
+        <Img src={iconLink} alt="" />
       </WeatherIcon>
 
       <Metrics>
         <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
-        <WeatherDeg>&deg;C</WeatherDeg>
+        <WeatherDeg>
+          {celcius ? <span>&deg;C</span> : <span> &deg;F</span>}
+        </WeatherDeg>
       </Metrics>
 
       <br />
