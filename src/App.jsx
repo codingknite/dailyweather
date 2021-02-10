@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
-import Highlights from "./Highlights";
 import "./App.css";
 import mockWeatherData from "./data/MockWeatherData";
 
@@ -55,7 +54,6 @@ export default function App() {
         error={error}
         weatherData={weatherData}
       />
-      <Highlights city={city} weatherData={weatherData} />
     </Main>
   );
 }
