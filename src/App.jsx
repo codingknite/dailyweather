@@ -11,11 +11,25 @@ const Main = styled.main`
   display: flex;
 `;
 
+const DegreeToggle = styled.div`
+  position: absolute;
+  right: 0px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  height: 10vh;
+
+  .deg-celcius {
+    margin-right: 5px;
+  }
+`;
+
 export default function App() {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(mockWeatherData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [celcius, setCelcius] = useState(true);
 
   useEffect(() => {
     fetch("https://extreme-ip-lookup.com/json/")
@@ -31,7 +45,9 @@ export default function App() {
       const apiKey = process.env.REACT_APP_API_KEY;
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${
+            celcius ? "metric" : "imperial"
+          }`
         );
         if (response.ok) {
           const json = await response.json();
@@ -45,17 +61,36 @@ export default function App() {
     }
 
     getWeatherData();
-  }, [city]);
+  }, [city, celcius]);
+
+  const handleFaregnHeight = () => {
+    setCelcius(false);
+  };
+
+  const handleCelcius = () => {
+    setCelcius(true);
+  };
+
+  console.log(celcius);
 
   return (
     <Main>
+      <DegreeToggle>
+        <div>
+          <button className="deg-celcius" onClick={handleCelcius}>
+            &deg;C
+          </button>
+          <button onClick={handleFaregnHeight}>&deg;F</button>
+        </div>
+      </DegreeToggle>
       <Weather
         city={city}
         loading={loading}
         error={error}
         weatherData={weatherData}
+        celcius={celcius}
       />
-      <Highlights city={city} weatherData={weatherData} />
+      <Highlights city={city} weatherData={weatherData} celcius={celcius} />
     </Main>
   );
 }
