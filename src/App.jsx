@@ -71,8 +71,6 @@ export default function App() {
     setCelcius(true);
   };
 
-  console.log(celcius);
-
   return (
     <Main>
       <DegreeToggle>
