@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import WeatherDisplay from "./WeatherDisplay";
+import Highlights from "./Highlights";
 
 const Section = styled.section`
   display: flex;
@@ -12,14 +13,17 @@ const Section = styled.section`
 
 const Weather = ({ city, loading, error, weatherData }) => {
   return (
-    <Section>
-      <WeatherDisplay
-        city={city}
-        loading={loading}
-        error={error}
-        weatherData={weatherData}
-      />
-    </Section>
+    <>
+      <Section>
+        <WeatherDisplay
+          city={city}
+          loading={loading}
+          error={error}
+          weatherData={weatherData}
+        />
+      </Section>
+      <Highlights city={city} weatherData={weatherData} />
+    </>
   );
 };
 
