@@ -55,7 +55,7 @@ TODO 2: fetch Icons for respsective weather condition
 TODO 3: Implement event handler for Search Button
 TODO 4: *LAST* Add Favorites page for favorite locations
 */
-const WeatherDisplay = ({ city, loading, error, weatherData }) => {
+const WeatherDisplay = ({ city, loading, error, weatherData, celcius }) => {
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
@@ -79,7 +79,9 @@ const WeatherDisplay = ({ city, loading, error, weatherData }) => {
 
       <Metrics>
         <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
-        <WeatherDeg>&deg;C</WeatherDeg>
+        <WeatherDeg>
+          {celcius ? <span>&deg;C</span> : <span> &deg;F</span>}
+        </WeatherDeg>
       </Metrics>
 
       <br />
