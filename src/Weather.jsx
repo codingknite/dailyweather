@@ -10,7 +10,7 @@ const Section = styled.section`
   color: white;
 `;
 
-const Weather = ({ city, loading, error, weatherData }) => {
+const Weather = ({ city, loading, error, weatherData, celcius }) => {
   return (
     <Section>
       <WeatherDisplay
@@ -18,6 +18,7 @@ const Weather = ({ city, loading, error, weatherData }) => {
         loading={loading}
         error={error}
         weatherData={weatherData}
+        celcius={celcius}
       />
     </Section>
   );
