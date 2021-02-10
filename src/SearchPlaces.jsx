@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
+import Spinner from "./Spinner";
+import MainWeather from "./App";
 
 const Section = styled.section`
   display: flex;
   flex-direction: column;
 `;
-const Cancel = styled.div`
+const Cancel = styled.button`
   align-self: flex-end;
 `;
 const Search = styled.div`
@@ -32,16 +34,23 @@ const Search = styled.div`
     margin-left: 20px;
   }
 `;
-const Cities = styled.div`
+
+/*
+TODO TODAYAadd 
+TODO Fix Highlight Page Rendering
+TODO After Fixing Highlights Rendering implement exit button 
+*/
+
+const Button = styled.button`
+  width: 50%;
+  margin: 10px;
   align-self: center;
-  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  width: 50%;
-  padding: 10px;
-  border: 2px solid black;
 `;
-
 export default function SearchPlaces() {
   const [inputValue, setInputValue] = useState("");
   const [allCountries, setAllCountries] = useState([
@@ -58,12 +67,11 @@ export default function SearchPlaces() {
       subcountry: "Andorra la Vella",
     },
   ]);
+  const [weatherData, setWeatherData] = useState();
+  const [selectedCity, setSelectedCity] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [exit, setExit] = useState(false);
 
-  const handleInput = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  // const apiKey = process.env.REACT_APP_CITY_API;
   useEffect(() => {
     async function getCountries() {
       try {
@@ -78,11 +86,17 @@ export default function SearchPlaces() {
         }
       } catch (error) {
         throw error;
+      } finally {
+        setLoading(false);
       }
     }
 
     getCountries();
   }, []);
+
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+  };
 
   const filterCities = allCountries.map((country) => country.name);
 
@@ -90,39 +104,77 @@ export default function SearchPlaces() {
     city.toLowerCase().includes(inputValue.toLowerCase())
   );
 
+  const handleClick = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
+  const handleExit = () => {
+    setExit(true);
+  };
+
+  useEffect(() => {
+    async function fetchWeatherData() {
+      const apiKey = process.env.REACT_APP_API_KEY;
+      try {
+        const response = await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=metric`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setWeatherData(data);
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchWeatherData();
+  }, [selectedCity]);
+
+  console.log(selectedCity);
+  console.log(weatherData);
+
   return (
-    <Section>
-      <Cancel>
-        <GiCancel />
-      </Cancel>
+    <>
+      <Section>
+        <Cancel onClick={handleExit}>
+          <GiCancel />
+        </Cancel>
 
-      <Search>
-        <label htmlFor="input-field">
-          <input
-            type="text"
-            placeholder="Search For Places"
-            className="input-field"
-            value={inputValue}
-            onChange={handleInput}
-          />
-        </label>
-        <BsSearch className="search-icon" />
-        <button className="search-button" disabled={!inputValue}>
-          Search
-        </button>
-      </Search>
-
-      {displayCities.length <= 10
-        ? displayCities.map((city, index) => (
-            <Cities key={index}>
+        <Search>
+          <label htmlFor="input-field">
+            <input
+              type="text"
+              placeholder="Search For Places"
+              className="input-field"
+              value={inputValue}
+              onChange={handleInput}
+              autoFocus={true}
+            />
+          </label>
+          <BsSearch className="search-icon" />
+          <button className="search-button" disabled={!inputValue}>
+            Search
+          </button>
+        </Search>
+        {loading ? (
+          <Spinner />
+        ) : displayCities.length <= 10 ? (
+          displayCities.map((city, index) => (
+            <Button onClick={handleClick} value={city} key={index + 1}>
               {city} <MdKeyboardArrowRight />
-            </Cities>
+            </Button>
           ))
-        : displayCities.splice(0, 9).map((city, index) => (
-            <Cities key={index}>
+        ) : (
+          displayCities.splice(0, 9).map((city, index) => (
+            <Button onClick={handleClick} value={city} key={index + 1}>
               {city} <MdKeyboardArrowRight />
-            </Cities>
-          ))}
-    </Section>
+            </Button>
+          ))
+        )}
+      </Section>
+    </>
   );
 }
