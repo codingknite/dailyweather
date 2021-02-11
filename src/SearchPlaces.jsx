@@ -17,7 +17,7 @@ const Search = styled.div`
   position: relative;
   align-self: center;
 
-  .input-field {
+  .input-field { 
     padding: 10px 0px 10px 30px;
     outline: none;
   }
