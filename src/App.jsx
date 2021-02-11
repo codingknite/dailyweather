@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
-import Highlights from "./Highlights";
 import "./App.css";
 import mockWeatherData from "./data/MockWeatherData";
-
-const Main = styled.main`
-  background: #edf2f4;
-  height: 100vh;
-  display: flex;
-`;
 
 const DegreeToggle = styled.div`
   position: absolute;
@@ -72,7 +65,7 @@ export default function App() {
   };
 
   return (
-    <Main>
+    <>
       <DegreeToggle>
         <div>
           <button className="deg-celcius" onClick={handleCelcius}>
@@ -88,7 +81,6 @@ export default function App() {
         weatherData={weatherData}
         celcius={celcius}
       />
-      <Highlights city={city} weatherData={weatherData} celcius={celcius} />
-    </Main>
+    </>
   );
 }

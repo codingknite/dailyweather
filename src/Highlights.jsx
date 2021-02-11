@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import * as FaIcons from "react-icons/fa";
+import * as BsIcons from "react-icons/bs";
 import Spinner from "./Spinner";
 import testForecast from "./data/MockForecast";
 
@@ -95,7 +96,8 @@ export default function Highlights({ city, weatherData, celcius }) {
   );
   filter5Days.splice(0, 1);
 
-  const roundOff = (number) => Math.floor(number);
+  const roundOff = (number) =>
+    number > 0 ? Math.floor(number) : number.toFixed(1);
 
   const visibilityToMiles = (visibility) =>
     (visibility / 1609).toFixed(1).toString().replace(".", ",");
@@ -128,8 +130,16 @@ export default function Highlights({ city, weatherData, celcius }) {
               <h4>{followingDates[index]}</h4>
               <FaIcons.FaCloudRain size="3em" />
               <div className="temp">
-                <p className="max-temp">{roundOff(day.main.temp_max)}&deg;</p>
-                <p className="min-temp">{roundOff(day.main.temp_min)}&deg;</p>
+                <p className="max-temp">
+                  {" "}
+                  <BsIcons.BsFillCaretUpFill />
+                  {roundOff(day.main.temp_max)}&deg;
+                </p>
+                <p className="min-temp">
+                  {" "}
+                  <BsIcons.BsFillCaretDownFill />
+                  {roundOff(day.main.temp_min)}&deg;
+                </p>
               </div>
             </HighlightDiv>
           ))
