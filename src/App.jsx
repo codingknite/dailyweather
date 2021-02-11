@@ -23,7 +23,7 @@ export default function App() {
       .catch((error) => {
         throw error;
       });
-  }, []);
+  }, []); 
 
   useEffect(() => {
     async function getWeatherData() {
