@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import * as IoIcons from "react-icons/io";
 import * as MdIcons from "react-icons/md";
-import mockWeatherCond from "./data/MockWeatherCondition";
+import mockWeatherCond from "./data/mockWeatherCondition";
 import Spinner from "./Spinner";
 import SearchPlaces from "./SearchPlaces";
 import Highlights from "./Highlights";
+import useFetchDataMounted from "./services/useFetchDataMounted";
 
 const Main = styled.main`
   /* background: #edf2f4; */
@@ -74,34 +75,19 @@ const Img = styled.img`
 /*
 TODO 4: *LAST* Add Favorites page for favorite locations
 */
-const WeatherDisplay = ({ city, loading, error, weatherData, celcius }) => {
-  const [condition, setCondition] = useState(mockWeatherCond);
+const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
 
-  useEffect(() => {
-    async function fetchCondition() {
-      const apiKey = process.env.REACT_APP_API_KEY;
-      try {
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setCondition(data);
-        }
-      } catch (error) {
-        console.log("Error: ---->", error);
-      }
-    }
-
-    fetchCondition();
-  }, [city]);
+  let { data: condition } = useFetchDataMounted(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
+    mockWeatherCond
+  );
 
   const iconLink = `http://openweathermap.org/img/wn/${condition.weather[0].icon}@2x.png`;
 
@@ -122,7 +108,7 @@ const WeatherDisplay = ({ city, loading, error, weatherData, celcius }) => {
         </Navigation>
 
         <WeatherIcon>
-          <Img src={iconLink} alt="" />
+          <Img src={iconLink} alt="" />{" "}
         </WeatherIcon>
 
         <Metrics>

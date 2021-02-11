@@ -5,7 +5,9 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import Spinner from "./Spinner";
 import Highlights from "./Highlights";
-import MockWeatherData from "./data/MockWeatherData";
+import MockWeatherData from "./data/mockWeatherData";
+import mockCountryData from "./data/mockCountryData";
+import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
 import App from "./App";
 
 const Main = styled.main`
@@ -55,46 +57,17 @@ const Button = styled.button`
 `;
 export default function SearchPlaces({ celcius }) {
   const [inputValue, setInputValue] = useState("");
-  const [allCountries, setAllCountries] = useState([
-    {
-      country: "Andorra",
-      geonameid: 3040051,
-      name: "les Escaldes",
-      subcountry: "Escaldes-Engordany",
-    },
-    {
-      country: "Andorra",
-      geonameid: 3041563,
-      name: "Andorra la Vella",
-      subcountry: "Andorra la Vella",
-    },
-  ]);
-  const [weatherData, setWeatherData] = useState(MockWeatherData);
   const [selectedCity, setSelectedCity] = useState("");
-  const [loading, setLoading] = useState(true);
   const [exit, setExit] = useState(false);
 
-  useEffect(() => {
-    async function getCountries() {
-      try {
-        const response = await fetch(
-          "https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setAllCountries(data);
-        } else {
-          throw response;
-        }
-      } catch (error) {
-        throw error;
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    getCountries();
-  }, []);
+  const {
+    data: allCountries,
+    error: countryError,
+    loading,
+  } = useFetchDataUnmounted(
+    "https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json",
+    mockCountryData
+  );
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -114,28 +87,14 @@ export default function SearchPlaces({ celcius }) {
     setExit(true);
   };
 
-  useEffect(() => {
-    async function fetchWeatherData() {
-      const apiKey = process.env.REACT_APP_API_KEY;
-      try {
-        const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=metric`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setWeatherData(data);
-        } else {
-          throw response;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchWeatherData();
-  }, [selectedCity]);
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const { data: weatherData } = useFetchDataUnmounted(
+    `http://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=metric`,
+    MockWeatherData
+  );
 
   if (exit) return <App />;
+  if (countryError) throw countryError;
   return (
     <Main>
       <Section>
@@ -176,11 +135,15 @@ export default function SearchPlaces({ celcius }) {
         )}
       </Section>
 
-      <Highlights
-        city={selectedCity}
-        weatherData={weatherData}
-        celcius={celcius}
-      />
+      {selectedCity ? (
+        <Highlights
+          city={selectedCity}
+          weatherData={weatherData}
+          celcius={celcius}
+        />
+      ) : (
+        <h2>Please Select A City</h2>
+      )}
     </Main>
   );
 }

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as FaIcons from "react-icons/fa";
 import * as BsIcons from "react-icons/bs";
 import Spinner from "./Spinner";
-import testForecast from "./data/MockForecast";
+import testForecast from "./data/mockForecast";
+import useFetchData from "./services/useFetchDataMounted";
 
 const HighlightSection = styled.section`
   width: 70vw;
@@ -48,48 +49,13 @@ const WindDiv = styled.section`
 `;
 
 export default function Highlights({ city, weatherData, celcius }) {
-  /* 
-  TODO2: Fix the dates in the weather forecast tiles
-  TODO3: Implement the degree buttons
-  TODO4: Refactor the code for the application 
-  TODO5: *VERY LAST* => Style the application
-  */
-
-  const [foreCast, setForeCast] = useState(testForecast);
-  const [loading, setLoading] = useState(true);
-  const isMounted = useRef(false);
-
   const apiKey = process.env.REACT_APP_API_KEY;
-
-  useEffect(() => {
-    isMounted.current = true;
-    async function getForecast() {
-      try {
-        const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${
-            celcius ? "metric" : "imperial"
-          }`
-        );
-        if (response.ok) {
-          if (isMounted.current) {
-            const json = await response.json();
-            setForeCast(json);
-          }
-        } else {
-          throw response;
-        }
-      } catch (error) {
-        console.log("Error: >>>", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    getForecast();
-    return () => {
-      isMounted.current = false;
-    };
-  }, [apiKey, city, celcius]);
+  const { data: foreCast, error, loading } = useFetchData(
+    `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${
+      celcius ? "metric" : "imperial"
+    }`,
+    testForecast
+  );
 
   const filter5Days = foreCast.list.filter(
     (item, index) => index % 8 === 0 || index === 39
@@ -118,6 +84,7 @@ export default function Highlights({ city, weatherData, celcius }) {
     4: generateNextDate(5),
   };
 
+  if (error) throw error;
   return (
     <HighlightSection>
       {/* WEATHER FORECAST */}

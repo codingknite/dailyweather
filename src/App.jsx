@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
 import "./App.css";
-import mockWeatherData from "./data/MockWeatherData";
+import useFetchWeatherData from "./services/useFetchWeatherData";
 
 const DegreeToggle = styled.div`
   position: absolute;
@@ -18,43 +18,8 @@ const DegreeToggle = styled.div`
 `;
 
 export default function App() {
-  const [city, setCity] = useState("");
-  const [weatherData, setWeatherData] = useState(mockWeatherData);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [celcius, setCelcius] = useState(true);
-
-  useEffect(() => {
-    fetch("https://extreme-ip-lookup.com/json/")
-      .then((response) => response.json())
-      .then((data) => setCity(data.city))
-      .catch((error) => {
-        throw error;
-      });
-  }, []);
-
-  useEffect(() => {
-    async function getWeatherData() {
-      const apiKey = process.env.REACT_APP_API_KEY;
-      try {
-        const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${
-            celcius ? "metric" : "imperial"
-          }`
-        );
-        if (response.ok) {
-          const json = await response.json();
-          setWeatherData(json);
-        }
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    getWeatherData();
-  }, [city, celcius]);
+  const { city, weatherData, loading, error } = useFetchWeatherData(celcius);
 
   const handleFaregnHeight = () => {
     setCelcius(false);
@@ -64,6 +29,7 @@ export default function App() {
     setCelcius(true);
   };
 
+  if (error) throw error;
   return (
     <>
       <DegreeToggle>
