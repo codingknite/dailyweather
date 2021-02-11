@@ -4,8 +4,24 @@ import * as IoIcons from "react-icons/io";
 import * as MdIcons from "react-icons/md";
 import mockWeatherCond from "./data/MockWeatherCondition";
 import Spinner from "./Spinner";
-import WeatherInfo from "./WeatherInfo";
 import SearchPlaces from "./SearchPlaces";
+import Highlights from "./Highlights";
+
+const Main = styled.main`
+  /* background: #edf2f4; */
+  display: flex;
+  height: 100vh;
+`;
+const HighlightsSection = styled.section`
+  background: firebrick;
+  width: 70vw;
+  align-self: flex-end;
+`;
+
+const InfoSection = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Navigation = styled.div`
   /* background: firebrick; */
@@ -92,51 +108,60 @@ const WeatherDisplay = ({ city, loading, error, weatherData, celcius }) => {
   if (error) throw error;
   if (loading) return <Spinner />;
   if (!city) return <Spinner />;
+  if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   return (
-    <>
-      <Navigation>
-        <button onClick={() => setSearchPlaces(true)}>Search for places</button>
-        <button>
-          <IoIcons.IoMdAddCircle size="2em" />
-        </button>
-      </Navigation>
+    <Main>
+      <InfoSection>
+        <Navigation>
+          <button onClick={() => setSearchPlaces(true)}>
+            Search for places
+          </button>
+          <button>
+            <IoIcons.IoMdAddCircle size="2em" />
+          </button>
+        </Navigation>
 
-      <WeatherIcon>
-        <Img src={iconLink} alt="" />
-      </WeatherIcon>
+        <WeatherIcon>
+          <Img src={iconLink} alt="" />
+        </WeatherIcon>
 
-      <Metrics>
-        <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
-        <WeatherDeg>
-          {celcius ? <span>&deg;C</span> : <span> &deg;F</span>}
-        </WeatherDeg>
-      </Metrics>
+        <Metrics>
+          <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
+          <WeatherDeg>
+            {celcius ? <span>&deg;C</span> : <span> &deg;F</span>}
+          </WeatherDeg>
+        </Metrics>
 
-      <br />
-      <Cond>
-        <h2>{weatherData.weather[0].description}</h2>
-      </Cond>
-      <br />
+        <br />
+        <Cond>
+          <h2>{weatherData.weather[0].description}</h2>
+        </Cond>
+        <br />
 
-      <br />
-      <Cond>
-        <div>
-          <span>Today • </span> {formatDate()}
-        </div>
-      </Cond>
-      <br />
+        <br />
+        <Cond>
+          <div>
+            <span>Today • </span> {formatDate()}
+          </div>
+        </Cond>
+        <br />
 
-      <br />
-      <Cond>
-        <div>
-          <span>
-            <MdIcons.MdLocationOn />
-          </span>{" "}
-          {city + ","} {weatherData.sys.country}
-        </div>
-      </Cond>
-      <br />
-    </>
+        <br />
+        <Cond>
+          <div>
+            <span>
+              <MdIcons.MdLocationOn />
+            </span>{" "}
+            {city + ","} {weatherData.sys.country}
+          </div>
+        </Cond>
+        <br />
+      </InfoSection>
+
+      <HighlightsSection>
+        <Highlights city={city} weatherData={weatherData} celcius={celcius} />
+      </HighlightsSection>
+    </Main>
   );
 };
 
