@@ -4,7 +4,15 @@ import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import Spinner from "./Spinner";
-import MainWeather from "./App";
+import Highlights from "./Highlights";
+import MockWeatherData from "./data/MockWeatherData";
+import App from "./App";
+
+const Main = styled.main`
+  background: #edf2f4;
+  height: 100vh;
+  display: flex;
+`;
 
 const Section = styled.section`
   display: flex;
@@ -17,7 +25,7 @@ const Search = styled.div`
   position: relative;
   align-self: center;
 
-  .input-field { 
+  .input-field {
     padding: 10px 0px 10px 30px;
     outline: none;
   }
@@ -35,12 +43,6 @@ const Search = styled.div`
   }
 `;
 
-/*
-TODO TODAYAadd 
-TODO Fix Highlight Page Rendering
-TODO After Fixing Highlights Rendering implement exit button 
-*/
-
 const Button = styled.button`
   width: 50%;
   margin: 10px;
@@ -51,7 +53,7 @@ const Button = styled.button`
   display: flex;
   justify-content: space-between;
 `;
-export default function SearchPlaces() {
+export default function SearchPlaces({ celcius }) {
   const [inputValue, setInputValue] = useState("");
   const [allCountries, setAllCountries] = useState([
     {
@@ -67,7 +69,7 @@ export default function SearchPlaces() {
       subcountry: "Andorra la Vella",
     },
   ]);
-  const [weatherData, setWeatherData] = useState();
+  const [weatherData, setWeatherData] = useState(MockWeatherData);
   const [selectedCity, setSelectedCity] = useState("");
   const [loading, setLoading] = useState(true);
   const [exit, setExit] = useState(false);
@@ -133,11 +135,9 @@ export default function SearchPlaces() {
     fetchWeatherData();
   }, [selectedCity]);
 
-  console.log(selectedCity);
-  console.log(weatherData);
-
+  if (exit) return <App />;
   return (
-    <>
+    <Main>
       <Section>
         <Cancel onClick={handleExit}>
           <GiCancel />
@@ -175,6 +175,12 @@ export default function SearchPlaces() {
           ))
         )}
       </Section>
-    </>
+
+      <Highlights
+        city={selectedCity}
+        weatherData={weatherData}
+        celcius={celcius}
+      />
+    </Main>
   );
 }
