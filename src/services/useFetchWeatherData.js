@@ -3,7 +3,7 @@ import MockWeatherData from '../data/mockWeatherData'
 
 export default function useFetchWeatherData(celcius) {
 
-    const [city, setCity] = useState("");
+    const [city, setCity] = useState("London");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [weatherData, setWeatherData] = useState(MockWeatherData);
@@ -38,7 +38,7 @@ export default function useFetchWeatherData(celcius) {
                 }
             } catch (e) {
                 if (isMounted.current) {
-                    console.log(e)
+                    throw e
                 };
             } finally {
                 if (isMounted.current) setLoading(false);

@@ -1,36 +1,13 @@
 import React from "react";
-import styled from "styled-components";
 import WeatherDisplay from "./WeatherDisplay";
 
-const Main = styled.main`
-  background: #0a89bb;
-  height: 100vh;
-  display: flex;
-`;
-
-const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 30vw;
-  height: 100vh;
-  background-color: #002521;
-  color: white;
-`;
-
-const Weather = ({ city, loading, error, weatherData, celcius }) => {
+const Weather = ({ city, weatherData, celcius }) => {
   return (
     <>
-      {/* <Section> */}
-      <WeatherDisplay
-        city={city}
-        loading={loading}
-        error={error}
-        weatherData={weatherData}
-        celcius={celcius}
-      />
-      {/* </Section> */}
+      <WeatherDisplay city={city} weatherData={weatherData} celcius={celcius} />
     </>
   );
 };
 
 export default Weather;
+ 
