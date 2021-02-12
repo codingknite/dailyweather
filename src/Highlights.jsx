@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import * as FaIcons from "react-icons/fa";
-import * as BsIcons from "react-icons/bs";
 import Spinner from "./Spinner";
-import testForecast from "./data/mockForecast";
-import useFetchData from "./services/useFetchDataMounted";
+import * as BsIcons from "react-icons/bs";
+import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
+import testForecast from "./data/mockForecast";
+import useFetchData from "./services/useFetchDataMounted";
 
 const HighlightSection = styled.section`
   background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.5)),
@@ -164,6 +164,7 @@ const WindDiv = styled.section`
 
 export default function Highlights({ city, weatherData, celcius }) {
   const apiKey = process.env.REACT_APP_API_KEY;
+
   const { data: foreCast, error, loading } = useFetchData(
     `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${
       celcius ? "metric" : "imperial"

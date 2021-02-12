@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Weather from "./Weather";
 import "./App.css";
+import Weather from "./Weather";
 import useFetchWeatherData from "./services/useFetchWeatherData";
 
 const DegreeToggle = styled.div`
   position: absolute;
   right: 0px;
-  display: flex; 
+  display: flex;
   justify-content: flex-end;
   padding: 5px;
   height: 10vh;
@@ -19,7 +19,7 @@ const DegreeToggle = styled.div`
 
 export default function App() {
   const [celcius, setCelcius] = useState(true);
-  const { city, weatherData, loading, error } = useFetchWeatherData(celcius);
+  const { city, weatherData, error } = useFetchWeatherData(celcius);
 
   const handleFaregnHeight = () => {
     setCelcius(false);
@@ -40,13 +40,8 @@ export default function App() {
           <button onClick={handleFaregnHeight}>&deg;F</button>
         </div>
       </DegreeToggle>
-      <Weather
-        city={city}
-        loading={loading}
-        error={error}
-        weatherData={weatherData}
-        celcius={celcius}
-      />
+      <Weather city={city} weatherData={weatherData} celcius={celcius} />
     </>
   );
 }
+ 
