@@ -3,7 +3,7 @@ import styled from "styled-components";
 import WeatherDisplay from "./WeatherDisplay";
 
 const Main = styled.main`
-  background: #edf2f4;
+  background: #0a89bb;
   height: 100vh;
   display: flex;
 `;

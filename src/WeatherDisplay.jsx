@@ -1,41 +1,77 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import * as IoIcons from "react-icons/io";
-import * as MdIcons from "react-icons/md";
 import mockWeatherCond from "./data/mockWeatherCondition";
 import Spinner from "./Spinner";
 import SearchPlaces from "./SearchPlaces";
 import Highlights from "./Highlights";
 import useFetchDataMounted from "./services/useFetchDataMounted";
+import * as IoIcons from "react-icons/io";
+import * as MdIcons from "react-icons/md";
+import * as RiIcons from "react-icons/ri";
+import * as GiIcons from "react-icons/gi";
+import * as FaIcons from "react-icons/fa";
+import * as WiIcons from "react-icons/wi";
+import * as mdIcons from "react-icons/io5";
 
 const Main = styled.main`
-  /* background: #edf2f4; */
+  background: #001720;
   display: flex;
   height: 100vh;
-`;
-const HighlightsSection = styled.section`
-  background: firebrick;
-  width: 70vw;
-  align-self: flex-end;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    height: 100vh;
+  }
 `;
 
 const InfoSection = styled.section`
+  width: 30vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: url("https://images.unsplash.com/photo-1534709333714-775101d963c8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=638&q=80");
+  background-repeat: no-repeat;
+  background-position: inherit;
+  background-size: cover;
 `;
 
 const Navigation = styled.div`
-  /* background: firebrick; */
+  margin-top: 1vh;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 15px;
+
+  .search-button {
+    background: #14213d;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  .search-button:hover {
+    transform: scale(1.05);
+    transition: ease-in 100ms;
+  }
+
+  .add-favs {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .add-favs:hover {
+    transform: scale(1.1);
+    transition: ease-in 100ms;
+  }
 `;
 
 const WeatherIcon = styled.div`
-  /* background-color: firebrick; */
   height: 20vh;
-  margin-top: 10vh;
+  margin-top: 6vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,21 +79,20 @@ const WeatherIcon = styled.div`
 `;
 
 const Metrics = styled.div`
-  /* background-color: firebrick; */
+  margin-top: 1vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20vh;
+  height: 25vh;
 `;
 
 const WeatherTemp = styled.span`
-  font-size: 5rem;
+  font-size: 7.5rem;
 `;
 
 const WeatherDeg = styled.div`
-  font-size: 2rem;
-  /* background: blue; */
+  font-size: 2.5rem;
   height: 50%;
   display: flex;
   align-items: center;
@@ -66,15 +101,39 @@ const WeatherDeg = styled.div`
 
 const Cond = styled.div`
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 30vh;
+
+  h1 {
+    margin-top: 0.5vh;
+    font-weight: 500;
+    font-size: 2rem;
+  }
+
+  .date-today {
+    margin-top: 24vh;
+
+    span {
+      font-size: 1.2rem;
+    }
+  }
+
+  .location {
+    margin-top: 3vh;
+  }
 `;
 
-const Img = styled.img`
-  width: 160px;
+const HighlightsSection = styled.section`
+  background: #11151c;
+  width: 70vw;
+  align-self: flex-end;
 `;
 
 /*
 TODO 4: *LAST* Add Favorites page for favorite locations
 */
+
 const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -89,7 +148,28 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
     mockWeatherCond
   );
 
-  const iconLink = `http://openweathermap.org/img/wn/${condition.weather[0].icon}@2x.png`;
+  const weatherIcons = {
+    "01d": <IoIcons.IoMdSunny size="10em" />,
+    "01n": <IoIcons.IoMdSunny size="10em" />,
+    "02d": <IoIcons.IoIosPartlySunny size="10em" />,
+    "02n": <IoIcons.IoIosPartlySunny size="10em" />,
+    "03d": <FaIcons.FaCloud size="10em" />,
+    "03n": <FaIcons.FaCloud size="10em" />,
+    "04d": <WiIcons.WiCloudy size="10em" />,
+    "04n": <WiIcons.WiCloudy size="10em" />,
+    "09d": <FaIcons.FaCloudRain size="10em" />,
+    "09n": <FaIcons.FaCloudRain size="10em" />,
+    "10d": <GiIcons.GiRaining size="10em" />,
+    "10n": <GiIcons.GiRaining size="10em" />,
+    "11d": <mdIcons.IoThunderstormSharp size="10em" />,
+    "11n": <mdIcons.IoThunderstormSharp size="10em" />,
+    "13d": <GiIcons.GiSnowing size="10em" />,
+    "13n": <GiIcons.GiSnowing size="10em" />,
+    "50d": <RiIcons.RiHazeFill size="10em" />,
+    "50n": <RiIcons.RiHazeFill size="10em" />,
+  };
+
+  const condIcon = condition.weather[0].icon;
 
   if (error) throw error;
   if (loading) return <Spinner />;
@@ -99,17 +179,18 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
     <Main>
       <InfoSection>
         <Navigation>
-          <button onClick={() => setSearchPlaces(true)}>
+          <button
+            className="search-button"
+            onClick={() => setSearchPlaces(true)}
+          >
             Search for places
           </button>
-          <button>
-            <IoIcons.IoMdAddCircle size="2em" />
+          <button className="add-favs">
+            <IoIcons.IoMdAddCircle size="2.5em" />
           </button>
         </Navigation>
 
-        <WeatherIcon>
-          <Img src={iconLink} alt="" />{" "}
-        </WeatherIcon>
+        <WeatherIcon>{weatherIcons[condIcon]}</WeatherIcon>
 
         <Metrics>
           <WeatherTemp>{Math.floor(weatherData.main.temp)}</WeatherTemp>{" "}
@@ -118,30 +199,18 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
           </WeatherDeg>
         </Metrics>
 
-        <br />
         <Cond>
-          <h2>{weatherData.weather[0].description}</h2>
-        </Cond>
-        <br />
-
-        <br />
-        <Cond>
-          <div>
-            <span>Today • </span> {formatDate()}
+          <h1>{weatherData.weather[0].description}</h1>
+          <div className="date-today">
+            <span>Today • </span> <span>{formatDate()}</span>
           </div>
-        </Cond>
-        <br />
-
-        <br />
-        <Cond>
-          <div>
+          <div className="location">
             <span>
               <MdIcons.MdLocationOn />
             </span>{" "}
             {city + ","} {weatherData.sys.country}
           </div>
         </Cond>
-        <br />
       </InfoSection>
 
       <HighlightsSection>

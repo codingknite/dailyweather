@@ -7,7 +7,7 @@ import useFetchWeatherData from "./services/useFetchWeatherData";
 const DegreeToggle = styled.div`
   position: absolute;
   right: 0px;
-  display: flex;
+  display: flex; 
   justify-content: flex-end;
   padding: 5px;
   height: 10vh;
