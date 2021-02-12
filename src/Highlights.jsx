@@ -5,25 +5,48 @@ import * as BsIcons from "react-icons/bs";
 import Spinner from "./Spinner";
 import testForecast from "./data/mockForecast";
 import useFetchData from "./services/useFetchDataMounted";
+import * as IoIcons from "react-icons/io";
+import * as RiIcons from "react-icons/ri";
+import * as GiIcons from "react-icons/gi";
+import * as WiIcons from "react-icons/wi";
+import * as mdIcons from "react-icons/io5";
 
 const HighlightSection = styled.section`
+  background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80");
+  background-repeat: no-repeat;
+  background-position: inherit;
+  background-size: cover;
   width: 70vw;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Section = styled.section`
   display: flex;
   justify-content: space-evenly;
-  width: 100%;
-  margin-top: 12vh;
+  width: 90%;
+  padding: 20px;
+  margin-top: 8vh;
 `;
 
 const HighlightDiv = styled.div`
+  background: #000a1c;
+  width: 15%;
+  height: 18vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  border: 2px solid black;
   padding: 10px;
+  border-radius: 3px;
+
+  h1 {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
 
   .temp {
     display: flex;
@@ -34,12 +57,103 @@ const HighlightDiv = styled.div`
 `;
 
 const WindDiv = styled.section`
-  margin-top: 10vh;
+  width: 90%;
+  height: 60vh;
+  padding: 20px;
+  margin-top: 5vh;
+
+  h1 {
+    font-weight: 500;
+    font-size: 2rem;
+    margin-left: 50px;
+  }
 
   .wind-info {
+    padding: 20px;
     margin-top: 2vh;
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    .wind-status,
+    .humidity {
+      background: #000a1c;
+      width: 30%;
+      height: 25vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      border-radius: 3px;
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    .wind-status {
+      .w-speed {
+        .wind-speed {
+          font-size: 8rem;
+          font-weight: 600;
+        }
+        .speed-unit {
+          font-size: 2rem;
+        }
+      }
+
+      .speed-direction {
+        .speed-deg {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .humidity {
+      .h-percentage {
+        font-size: 8rem;
+        font-weight: 600;
+      }
+      .p-symbol {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .air-info {
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 25vh;
+
+    .visibility,
+    .pressure {
+      background: #000a1c;
+      width: 40%;
+      height: 20vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      border-radius: 3px;
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+      .figure {
+        font-size: 7rem;
+        font-weight: 600;
+      }
+
+      .caption {
+        font-size: 1.5rem;
+      }
+    }
   }
 
   .static {
@@ -84,18 +198,37 @@ export default function Highlights({ city, weatherData, celcius }) {
     4: generateNextDate(5),
   };
 
+  const weatherIcons = {
+    "01d": <IoIcons.IoMdSunny size="5em" />,
+    "01n": <IoIcons.IoMdSunny size="5em" />,
+    "02d": <IoIcons.IoIosPartlySunny size="5em" />,
+    "02n": <IoIcons.IoIosPartlySunny size="5em" />,
+    "03d": <FaIcons.FaCloud size="5em" />,
+    "03n": <FaIcons.FaCloud size="5em" />,
+    "04d": <WiIcons.WiCloudy size="5em" />,
+    "04n": <WiIcons.WiCloudy size="5em" />,
+    "09d": <FaIcons.FaCloudRain size="5em" />,
+    "09n": <FaIcons.FaCloudRain size="5em" />,
+    "10d": <GiIcons.GiRaining size="5em" />,
+    "10n": <GiIcons.GiRaining size="5em" />,
+    "11d": <mdIcons.IoThunderstormSharp size="5em" />,
+    "11n": <mdIcons.IoThunderstormSharp size="5em" />,
+    "13d": <GiIcons.GiSnowing size="5em" />,
+    "13n": <GiIcons.GiSnowing size="5em" />,
+    "50d": <RiIcons.RiHazeFill size="5em" />,
+    "50n": <RiIcons.RiHazeFill size="5em" />,
+  };
   if (error) throw error;
   return (
     <HighlightSection>
-      {/* WEATHER FORECAST */}
       <Section>
         {loading ? (
           <Spinner />
         ) : (
           filter5Days.map((day, index) => (
             <HighlightDiv key={index}>
-              <h4>{followingDates[index]}</h4>
-              <FaIcons.FaCloudRain size="3em" />
+              <h1>{followingDates[index]}</h1>
+              {weatherIcons[day.weather[0].icon]}
               <div className="temp">
                 <p className="max-temp">
                   {" "}
@@ -113,49 +246,67 @@ export default function Highlights({ city, weatherData, celcius }) {
         )}
       </Section>
 
-      {/* WEATHER HIGHLIGHTS */}
       <WindDiv>
         {loading ? (
           <Spinner />
         ) : (
           <>
-            <h2>Today's Highlights</h2>
-            <div className="wind-info">
-              <div className="static">
-                <h3>Wind Status</h3>
-                <div>
-                  {roundOff(weatherData.wind.speed) + " "}
-                  <span>mph</span>
+            <h1>Today's Highlights</h1>
+            <section className="wind-info">
+              <div className="wind-status">
+                <h2>Wind Speed</h2>
+                <div className="w-speed">
+                  <span className="wind-speed">
+                    {roundOff(weatherData.wind.speed)}
+                  </span>
+                  <span className="speed-unit">mph</span>
                 </div>
-                <div>
-                  <FaIcons.FaRegCompass />{" "}
-                  <span>{roundOff(weatherData.wind.deg)}&deg;</span>
-                </div>
-              </div>
-
-              <div className="static">
-                <h3>Humidity</h3>
-                <div>
-                  {roundOff(weatherData.main.humidity) + " "}
-                  <span>%</span>
-                </div>
-                <div></div>
-              </div>
-
-              <div className="static">
-                <h3>Visibility</h3>
-                <div>
-                  {visibilityToMiles(weatherData.visibility)} <span>Miles</span>
+                <div className="speed-direction">
+                  <FaIcons.FaRegCompass size="2em" />{" "}
+                  <span className="speed-deg">
+                    {roundOff(weatherData.wind.deg)}&deg;
+                  </span>
                 </div>
               </div>
 
-              <div className="static">
-                <h3>Air Pressure</h3>
+              <div className="humidity">
+                <h2>Humidity</h2>
                 <div>
-                  {weatherData.main.pressure} <span>mb</span>
+                  <span className="h-percentage">
+                    {roundOff(weatherData.main.humidity)}
+                  </span>
+                  <span className="p-symbol">%</span>
+                </div>
+                <div>
+                  {0 + "% "}
+                  <progress
+                    value={roundOff(weatherData.main.humidity)}
+                    max="100"
+                  ></progress>
+                  {` ${100}%`}
                 </div>
               </div>
-            </div>
+            </section>
+
+            <section className="air-info">
+              <div className="visibility">
+                <h2>Visibility</h2>
+                <div>
+                  <span className="figure">
+                    {visibilityToMiles(weatherData.visibility)}
+                  </span>
+                  <span className="caption">Miles</span>
+                </div>
+              </div>
+
+              <div className="pressure">
+                <h2>Air Pressure</h2>
+                <div>
+                  <span className="figure">{weatherData.main.pressure}</span>
+                  <span className="caption">mb</span>
+                </div>
+              </div>
+            </section>
           </>
         )}
       </WindDiv>
