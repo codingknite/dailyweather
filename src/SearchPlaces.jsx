@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import Spinner from "./Spinner";
-import Highlights from "./Highlights";
-import MockWeatherData from "./data/mockWeatherData";
 import mockCountryData from "./data/mockCountryData";
 import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
-import App from "./App";
+import App from "./Weather";
+import SearchCity from "./searchCity";
 
 const Main = styled.main`
   background: #edf2f4;
@@ -55,6 +54,7 @@ const Button = styled.button`
   display: flex;
   justify-content: space-between;
 `;
+
 export default function SearchPlaces({ celcius }) {
   const [inputValue, setInputValue] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -87,12 +87,7 @@ export default function SearchPlaces({ celcius }) {
     setExit(true);
   };
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-  const { data: weatherData } = useFetchDataUnmounted(
-    `http://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=metric`,
-    MockWeatherData
-  );
-
+  if (selectedCity) return <SearchCity city={selectedCity} celcius={celcius} />;
   if (exit) return <App />;
   if (countryError) throw countryError;
   return (
@@ -118,6 +113,7 @@ export default function SearchPlaces({ celcius }) {
             Search
           </button>
         </Search>
+
         {loading ? (
           <Spinner />
         ) : displayCities.length <= 10 ? (
@@ -134,16 +130,6 @@ export default function SearchPlaces({ celcius }) {
           ))
         )}
       </Section>
-
-      {selectedCity ? (
-        <Highlights
-          city={selectedCity}
-          weatherData={weatherData}
-          celcius={celcius}
-        />
-      ) : (
-        <h2>Please Select A City</h2>
-      )}
     </Main>
   );
 }
