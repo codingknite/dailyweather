@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import mockWeatherCond from "./data/mockWeatherCondition";
+import App from "./App";
 import Spinner from "./Spinner";
-import SearchPlaces from "./SearchPlaces";
 import Highlights from "./Highlights";
-import useFetchDataMounted from "./services/useFetchDataMounted";
-import * as IoIcons from "react-icons/io";
+import SearchPlaces from "./SearchPlaces";
 import * as MdIcons from "react-icons/md";
+import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import * as GiIcons from "react-icons/gi";
-import * as FaIcons from "react-icons/fa";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
+import * as FaIcons from "react-icons/fa";
+import mockWeatherCond from "./data/mockWeatherCondition";
+import useFetchDataMounted from "./services/useFetchDataMounted";
 
 const Main = styled.main`
   background: #001720;
@@ -33,6 +34,12 @@ const InfoSection = styled.section`
   background-repeat: no-repeat;
   background-position: inherit;
   background-size: cover;
+`;
+
+const HighlightsSection = styled.section`
+  background: #11151c;
+  width: 70vw;
+  align-self: flex-end;
 `;
 
 const Navigation = styled.div`
@@ -124,18 +131,18 @@ const Cond = styled.div`
   }
 `;
 
-const HighlightsSection = styled.section`
-  background: #11151c;
-  width: 70vw;
-  align-self: flex-end;
-`;
-
 /*
-TODO 4: *LAST* Add Favorites page for favorite locations
-*/
+TODO
 
-const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
+Todo1: Style Spinner To Apear in the middle
+Todo2: Make the app mobile responsive
+Todo3: Style the search page...add illustration in place of Highlights component //https://undraw.co/search
+Todo4: Find Logo For The App
+*/
+const WeatherDisplay = ({ city, weatherData, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
+  const [searchCurrent, setSearchCurrent] = useState(false);
+
   const apiKey = process.env.REACT_APP_API_KEY;
 
   const formatDate = () => {
@@ -143,10 +150,14 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
 
-  let { data: condition } = useFetchDataMounted(
+  let { data: condition, error, loading } = useFetchDataMounted(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
     mockWeatherCond
   );
+
+  const handleCurrent = () => {
+    setSearchCurrent(true);
+  };
 
   const weatherIcons = {
     "01d": <IoIcons.IoMdSunny size="10em" />,
@@ -175,6 +186,7 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
   if (loading) return <Spinner />;
   if (!city) return <Spinner />;
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
+  if (searchCurrent) return <App />;
   return (
     <Main>
       <InfoSection>
@@ -185,8 +197,8 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
           >
             Search for places
           </button>
-          <button className="add-favs">
-            <IoIcons.IoMdAddCircle size="2.5em" />
+          <button className="add-favs" onClick={handleCurrent}>
+            <MdIcons.MdMyLocation size="2.5em" />
           </button>
         </Navigation>
 
@@ -213,9 +225,13 @@ const WeatherDisplay = ({ city, loading, weatherData, error, celcius }) => {
         </Cond>
       </InfoSection>
 
-      <HighlightsSection>
-        <Highlights city={city} weatherData={weatherData} celcius={celcius} />
-      </HighlightsSection>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <HighlightsSection>
+          <Highlights city={city} weatherData={weatherData} celcius={celcius} />
+        </HighlightsSection>
+      )} 
     </Main>
   );
 };

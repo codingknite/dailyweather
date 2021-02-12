@@ -24,6 +24,5 @@ export default function useFetchSearchLocationData(url, mockdata) {
         }
         fetchWeatherData();
     }, [url]);
-
     return { data, error, loading }
 }
