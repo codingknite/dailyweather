@@ -6,53 +6,109 @@ import styled from "styled-components";
 import Spinner from "./Spinner";
 import mockCountryData from "./data/mockCountryData";
 import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
-import App from "./Weather";
+import App from "./App";
 import SearchCity from "./searchCity";
+import select from "./select.svg";
 
 const Main = styled.main`
-  background: #edf2f4;
+  background: #00040a;
   height: 100vh;
   display: flex;
 `;
 
 const Section = styled.section`
+  background: #010b1b;
+  width: 30vw;
   display: flex;
   flex-direction: column;
 `;
+
 const Cancel = styled.button`
   align-self: flex-end;
+  background: none;
+  margin: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: ease-in-out 200ms;
+  }
 `;
+
 const Search = styled.div`
   position: relative;
   align-self: center;
+  outline: none;
 
   .input-field {
+    background: none;
     padding: 10px 0px 10px 30px;
+    font-size: 0.9rem;
     outline: none;
+    border: 2px solid #dcdcdc;
+    border-radius: 3px;
+    width: 13rem;
   }
 
   .search-icon {
     position: absolute;
     top: 12px;
     left: 5px;
-    color: black;
+    margin-left: 5px;
   }
 
   .search-button {
     padding: 10px;
+    border-radius: 3px;
     margin-left: 20px;
+    width: 80px;
+    background: #1959b1;
+    font-size: 0.9rem;
   }
 `;
 
 const Button = styled.button`
+  background: none;
   width: 50%;
-  margin: 10px;
+  margin: 25px 10px 10px 10px;
   align-self: center;
   display: flex;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
+  border: 2px solid #696969;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: #d1d1d1;
+    border: none;
+    color: #010b1b;
+
+    .arrow-right {
+      display: none;
+    }
+  }
+`;
+
+const Illustration = styled.div`
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .search {
+    width: 50rem;
+  }
+
+  h1 {
+    margin-top: 8vh;
+    font-weight: 500;
+  }
 `;
 
 export default function SearchPlaces({ celcius }) {
@@ -94,7 +150,7 @@ export default function SearchPlaces({ celcius }) {
     <Main>
       <Section>
         <Cancel onClick={handleExit}>
-          <GiCancel />
+          <GiCancel className="exit-btn" size="2em" />
         </Cancel>
 
         <Search>
@@ -108,7 +164,7 @@ export default function SearchPlaces({ celcius }) {
               autoFocus={true}
             />
           </label>
-          <BsSearch className="search-icon" />
+          <BsSearch className="search-icon" color="blue" />
           <button className="search-button" disabled={!inputValue}>
             Search
           </button>
@@ -116,20 +172,27 @@ export default function SearchPlaces({ celcius }) {
 
         {loading ? (
           <Spinner />
-        ) : displayCities.length <= 10 ? (
+        ) : displayCities.length <= 7 ? (
           displayCities.map((city, index) => (
             <Button onClick={handleClick} value={city} key={index + 1}>
-              {city} <MdKeyboardArrowRight />
+              {city}{" "}
+              <MdKeyboardArrowRight size="1.4em" className="arrow-right" />
             </Button>
           ))
         ) : (
-          displayCities.splice(0, 9).map((city, index) => (
+          displayCities.splice(0, 7).map((city, index) => (
             <Button onClick={handleClick} value={city} key={index + 1}>
-              {city} <MdKeyboardArrowRight />
+              {city}{" "}
+              <MdKeyboardArrowRight size="1.4em" className="arrow-right" />
             </Button>
           ))
         )}
       </Section>
+
+      <Illustration>
+        <img src={select} alt="" className="search" />
+        <h1>Please Choose A Location</h1>
+      </Illustration>
     </Main>
   );
 }

@@ -14,6 +14,16 @@ import * as FaIcons from "react-icons/fa";
 import mockWeatherCond from "./data/mockWeatherCondition";
 import useFetchDataMounted from "./services/useFetchDataMounted";
 
+const SpinnerLoader = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .first-spinner {
+    position: absolute;
+    right: 0;
+  }
+`;
 const Main = styled.main`
   background: #001720;
   display: flex;
@@ -183,7 +193,12 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   const condIcon = condition.weather[0].icon;
 
   if (error) throw error;
-  if (loading) return <Spinner />;
+  if (loading)
+    return (
+      <SpinnerLoader>
+        <Spinner height="500" width="500" color="#00BFFF" />
+      </SpinnerLoader>
+    );
   if (!city) return <Spinner />;
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
@@ -231,7 +246,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
         <HighlightsSection>
           <Highlights city={city} weatherData={weatherData} celcius={celcius} />
         </HighlightsSection>
-      )} 
+      )}
     </Main>
   );
 };
