@@ -8,7 +8,7 @@ import mockCountryData from "./data/mockCountryData";
 import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
 import App from "./App";
 import SearchCity from "./searchCity";
-import select from "./select.svg";
+import select from "./img/select.svg";
 
 const Main = styled.main`
   background: #00040a;

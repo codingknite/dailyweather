@@ -1,5 +1,5 @@
 import React from "react";
-import support from "./support.svg";
+import support from "./img/support.svg";
 import styled from "styled-components";
 
 const Main = styled.main`
