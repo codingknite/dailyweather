@@ -46,7 +46,7 @@ export default function App() {
   };
 
   const handleCelcius = () => {
-    setCelcius(true);
+    setCelcius(true); 
   };
 
   if (error) throw error;
