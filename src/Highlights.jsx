@@ -12,7 +12,7 @@ import testForecast from "./data/mockForecast";
 import useFetchData from "./services/useFetchDataMounted";
 
 const HighlightSection = styled.section`
-  background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.5)),
+  background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.7)),
     url("https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80");
   background-repeat: no-repeat;
   background-position: inherit;
@@ -22,6 +22,10 @@ const HighlightSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    width: 100vw;
+  }
 `;
 
 const Section = styled.section`
@@ -30,6 +34,16 @@ const Section = styled.section`
   width: 90%;
   padding: 20px;
   margin-top: 8vh;
+
+  @media (max-width: 1024px) {
+    height: 50vh;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 767px) {
+    height: 80vh;
+    flex-wrap: wrap;
+  }
 `;
 
 const HighlightDiv = styled.div`
@@ -53,6 +67,28 @@ const HighlightDiv = styled.div`
     width: 100%;
     margin-top: 10px;
     justify-content: space-around;
+  }
+
+  @media (max-width: 1024px) {
+    width: 30%;
+    height: 19vh;
+    margin: 10px;
+    justify-content: space-around;
+
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    width: 45%;
+    height: 21vh;
+    margin: 10px;
+    justify-content: space-around;
+
+    h1 {
+      font-size: 1.1rem;
+    }
   }
 `;
 
@@ -159,6 +195,113 @@ const WindDiv = styled.section`
   .static {
     border: 2px solid black;
     padding: 10px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    height: 70vh;
+    margin-top: 3vh;
+
+    h1 {
+      font-weight: 500;
+      font-size: 2.5rem;
+      margin-left: 50px;
+    }
+
+    .wind-info {
+      .wind-status,
+      .humidity {
+        background: #000a1c;
+        width: 48%;
+        height: 26vh;
+        margin: 5px;
+      }
+    }
+
+    .air-info {
+      .visibility,
+      .pressure {
+        background: #000a1c;
+        width: 48%;
+        height: 21vh;
+      }
+    }
+
+    .static {
+      border: 2px solid black;
+      padding: 10px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    height: 160vh;
+
+    h1 {
+      font-size: 2.2rem;
+      margin-left: 30px;
+    }
+
+    .wind-info {
+      .wind-status,
+      .humidity {
+        width: 85%;
+        height: 32vh;
+        margin: 10px;
+
+        h2 {
+          font-size: 1.3rem;
+        }
+      }
+
+      .wind-status {
+        .w-speed {
+          .wind-speed {
+            font-size: 7rem;
+          }
+          .speed-unit {
+            font-size: 1.8rem;
+          }
+        }
+
+        .speed-direction {
+          .speed-deg {
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      .humidity {
+        .h-percentage {
+          font-size: 7rem;
+        }
+        .p-symbol {
+          font-size: 1.8rem;
+        }
+      }
+    }
+
+    .air-info {
+      .visibility,
+      .pressure {
+        width: 90%;
+        height: 30vh;
+        margin: 10px;
+      }
+
+      .visibility,
+      .pressure {
+        h2 {
+          font-size: 1.3rem;
+        }
+        .figure {
+          font-size: 6rem;
+        }
+
+        .caption {
+          font-size: 1.3rem;
+        }
+      }
+    }
   }
 `;
 

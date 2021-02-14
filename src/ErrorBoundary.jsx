@@ -1,4 +1,5 @@
 import React from "react";
+import LoadingError from "./LoadingError";
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class ErrorBoundary extends React.Component {
   }
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+      return <LoadingError />;
     }
     return this.props.children;
   }

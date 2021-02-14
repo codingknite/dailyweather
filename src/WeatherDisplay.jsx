@@ -14,14 +14,24 @@ import * as FaIcons from "react-icons/fa";
 import mockWeatherCond from "./data/mockWeatherCondition";
 import useFetchDataMounted from "./services/useFetchDataMounted";
 
+const SpinnerLoader = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .first-spinner {
+    position: absolute;
+    right: 0;
+  }
+`;
+
 const Main = styled.main`
   background: #001720;
   display: flex;
   height: 100vh;
 
-  @media (max-width: 700px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
-    height: 100vh;
   }
 `;
 
@@ -30,16 +40,16 @@ const InfoSection = styled.section`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url("https://images.unsplash.com/photo-1534709333714-775101d963c8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=638&q=80");
+  background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.35)),
+    url("https://images.unsplash.com/photo-1534709333714-775101d963c8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=638&q=80");
   background-repeat: no-repeat;
   background-position: inherit;
   background-size: cover;
-`;
 
-const HighlightsSection = styled.section`
-  background: #11151c;
-  width: 70vw;
-  align-self: flex-end;
+  @media (max-width: 1024px) {
+    width: 100vw;
+    min-height: 100vh;
+  }
 `;
 
 const Navigation = styled.div`
@@ -129,6 +139,27 @@ const Cond = styled.div`
   .location {
     margin-top: 3vh;
   }
+
+  @media (max-width: 1024px) {
+    /* background: firebrick; */
+    height: 40vh;
+
+    h1 {
+      margin-top: 1vh;
+    }
+  }
+`;
+
+const HighlightsSection = styled.section`
+  background: #11151c;
+  width: 70vw;
+  align-self: flex-end;
+
+  @media (max-width: 1024px) {
+    background: #11151c;
+    width: 100vw;
+    align-self: flex-start;
+  }
 `;
 
 /*
@@ -183,7 +214,12 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   const condIcon = condition.weather[0].icon;
 
   if (error) throw error;
-  if (loading) return <Spinner />;
+  if (loading)
+    return (
+      <SpinnerLoader>
+        <Spinner height="500" width="500" color="#00BFFF" />
+      </SpinnerLoader>
+    );
   if (!city) return <Spinner />;
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
@@ -231,7 +267,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
         <HighlightsSection>
           <Highlights city={city} weatherData={weatherData} celcius={celcius} />
         </HighlightsSection>
-      )} 
+      )}
     </Main>
   );
 };
