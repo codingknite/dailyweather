@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import MockWeatherData from '../data/mockWeatherData'
+import MockWeatherData from '../data/MockForecast'
 
 export default function useFetchWeatherData(celcius) {
 
