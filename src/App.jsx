@@ -4,15 +4,6 @@ import Weather from "./components/Weather";
 import useFetchWeatherData from "./services/useFetchWeatherData";
 import "./App.css";
 
-/*
-    TODO LEFT
-
-    Todo (i) - Make the whole app mobile responsive 
-    Todo (ii) - Find Logo for the app 
-    Todo (iii) - Deploy the app to netlify
-    Todo (iv) - Document about the project on Github
-*/
-
 const DegreeToggle = styled.div`
   position: absolute;
   right: 10px;

@@ -373,15 +373,6 @@ const WindDiv = styled.section`
         height: 30vh;
       }
 
-      /* .wind-status {
-        .w-speed {
-          .speed-unit {
-            font-size: 1.5rem;
-          }
-        }
-      }
-    } */
-
       .wind-status {
         .w-speed {
           .wind-speed {
@@ -406,7 +397,7 @@ const WindDiv = styled.section`
           font-weight: 600;
         }
         .p-symbol {
-          font-size: 2rem;
+          font-size: rem;
         }
       }
     }
