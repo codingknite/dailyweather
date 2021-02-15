@@ -189,15 +189,13 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
   const [searchCurrent, setSearchCurrent] = useState(false);
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-
   const formatDate = () => {
     const date = new Date().toDateString().split(" ");
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
 
   let { data: condition, error, loading } = useFetchDataMounted(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92`,
     mockWeatherCond
   );
 
@@ -228,11 +226,13 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
 
   const condIcon = condition.weather[0].icon;
 
+  console.log(weatherData);
+
   if (error) throw error;
   if (loading)
     return (
       <SpinnerLoader>
-        <Spinner height="500" width="500" color="#00BFFF" />
+        <Spinner height="500" width="500" />
       </SpinnerLoader>
     );
   if (!city) return <Spinner />;

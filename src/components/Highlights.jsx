@@ -446,10 +446,8 @@ const WindDiv = styled.section`
 `;
 
 export default function Highlights({ city, weatherData, celcius }) {
-  const apiKey = process.env.REACT_APP_API_KEY;
-
   const { data: foreCast, error, loading } = useFetchData(
-    `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${
+    `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${
       celcius ? "metric" : "imperial"
     }`,
     testForecast
@@ -459,6 +457,9 @@ export default function Highlights({ city, weatherData, celcius }) {
     (item, index) => index % 8 === 0 || index === 39
   );
   filter5Days.splice(0, 1);
+
+  console.log(testForecast);
+  console.log(filter5Days);
 
   const roundOff = (number) =>
     number > 0 ? Math.floor(number) : number.toFixed(1);
