@@ -34,7 +34,7 @@ const Main = styled.main`
 
   @media (max-width: 480px) {
     .support {
-      width: 25em;
+      width: 20em;
     }
 
     .text-one {
@@ -48,7 +48,7 @@ const Main = styled.main`
 
   @media (max-width: 320px) {
     .support {
-      width: 15em;
+      width: 12em;
     }
 
     .text-one {
