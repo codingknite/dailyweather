@@ -4,7 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import Spinner from "./Spinner";
-import mockCountryData from "./data/mockCountryData";
+import mockCountryData from "./data/MockCountryData";
 import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
 import App from "./App";
 import SearchCity from "./searchCity";
