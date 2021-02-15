@@ -482,6 +482,7 @@ export default function Highlights({ city, weatherData, celcius }) {
     "50n": <RiIcons.RiHazeFill size="5em" />,
   };
   if (error) throw error;
+
   return (
     <HighlightSection>
       <Section>
