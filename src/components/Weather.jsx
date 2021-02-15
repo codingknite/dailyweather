@@ -10,4 +10,3 @@ const Weather = ({ city, weatherData, celcius }) => {
 };
 
 export default Weather;
-  

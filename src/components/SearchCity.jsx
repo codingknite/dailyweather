@@ -1,7 +1,7 @@
 import React from "react";
 import WeatherDisplay from "./WeatherDisplay";
-import mockData from "./data/mockWeatherData";
-import useFetchData from "./services/useFetchDataUnmounted";
+import mockData from "../data/MockWeatherData";
+import useFetchData from "../services/useFetchDataUnmounted";
 
 export default function SearchCity({ city, celcius }) {
   const apiKey = process.env.REACT_APP_API_KEY;

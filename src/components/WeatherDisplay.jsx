@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import App from "./App";
+import App from "../App";
 import Spinner from "./Spinner";
 import Highlights from "./Highlights";
 import SearchPlaces from "./SearchPlaces";
@@ -11,8 +11,8 @@ import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
 import * as FaIcons from "react-icons/fa";
-import mockWeatherCond from "./data/mockWeatherCondition";
-import useFetchDataMounted from "./services/useFetchDataMounted";
+import mockWeatherCond from "../data/MockWeatherCondition";
+import useFetchDataMounted from "../services/useFetchDataMounted";
 
 const SpinnerLoader = styled.div`
   height: 100vh;
@@ -48,7 +48,7 @@ const InfoSection = styled.section`
 
   @media (max-width: 1024px) {
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
   }
 `;
 
@@ -141,11 +141,34 @@ const Cond = styled.div`
   }
 
   @media (max-width: 1024px) {
-    /* background: firebrick; */
+    height: 50vh;
+  }
+
+  @media (max-width: 768px) {
     height: 40vh;
 
     h1 {
-      margin-top: 1vh;
+      margin-top: 0.5vh;
+      font-weight: 500;
+      font-size: 2rem;
+    }
+
+    .date-today {
+      margin-top: 21vh;
+
+      span {
+        font-size: 1.2rem;
+      }
+    }
+
+    .location {
+      margin-top: 1.8vh;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .date-today {
+      margin-top: 16vh;
     }
   }
 `;
@@ -162,14 +185,6 @@ const HighlightsSection = styled.section`
   }
 `;
 
-/*
-TODO
-
-Todo1: Style Spinner To Apear in the middle
-Todo2: Make the app mobile responsive
-Todo3: Style the search page...add illustration in place of Highlights component //https://undraw.co/search
-Todo4: Find Logo For The App
-*/
 const WeatherDisplay = ({ city, weatherData, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
   const [searchCurrent, setSearchCurrent] = useState(false);
