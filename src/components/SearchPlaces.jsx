@@ -232,7 +232,7 @@ export default function SearchPlaces({ celcius }) {
 
       <Illustration>
         <img src={select} alt="search svg" className="search" />
-        <h1>Please Choose A Location</h1>
+        <h1>Please Choose A Location.</h1>
       </Illustration>
     </Main>
   );
