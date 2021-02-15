@@ -7,7 +7,7 @@ import SearchCity from "./SearchCity";
 import { GiCancel } from "react-icons/gi";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import mockCountryData from "../data/MockCountryData";
+import mockCountryData from "../data/mockCountryData";
 import useFetchDataUnmounted from "../services/useFetchDataUnmounted";
 
 const Main = styled.main`
