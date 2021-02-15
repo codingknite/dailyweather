@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import App from "../App";
-import Spinner from "./Spinner";
-import select from "../img/select.svg";
-import SearchCity from "./SearchCity";
 import { GiCancel } from "react-icons/gi";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import mockCountryData from "../data/mockCountryData";
-import useFetchDataUnmounted from "../services/useFetchDataUnmounted";
+import styled from "styled-components";
+import Spinner from "./Spinner";
+import mockCountryData from "./data/mockCountryData";
+import useFetchDataUnmounted from "./services/useFetchDataUnmounted";
+import App from "./App";
+import SearchCity from "./searchCity";
+import select from "./img/select.svg";
 
 const Main = styled.main`
   background: #00040a;
   height: 100vh;
   display: flex;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-  }
 `;
 
 const Section = styled.section`
@@ -25,29 +21,12 @@ const Section = styled.section`
   width: 30vw;
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 1024px) {
-    width: 50vw;
-  }
-
-  @media (max-width: 768px) {
-    width: 60vw;
-  }
-
-  @media (max-width: 480px) {
-    width: 100vw;
-    height: 100vh;
-  }
-
-  @media (max-width: 320px) {
-    height: 100vh;
-  }
 `;
 
 const Cancel = styled.button`
   align-self: flex-end;
   background: none;
-  margin: 30px;
+  margin: 20px;
   border: none;
   outline: none;
   cursor: pointer;
@@ -70,7 +49,7 @@ const Search = styled.div`
     outline: none;
     border: 2px solid #dcdcdc;
     border-radius: 3px;
-    width: 14rem;
+    width: 13rem;
   }
 
   .search-icon {
@@ -87,16 +66,6 @@ const Search = styled.div`
     width: 80px;
     background: #1959b1;
     font-size: 0.9rem;
-  }
-
-  @media (max-width: 480px) {
-    margin-top: 5vh;
-  }
-
-  @media (max-width: 320px) {
-    .input-field {
-      width: 10rem;
-    }
   }
 `;
 
@@ -123,13 +92,6 @@ const Button = styled.button`
       display: none;
     }
   }
-
-  @media (max-width: 768px) {
-    width: 70%;
-  }
-
-  @media (max-width: 320px) {
-  }
 `;
 
 const Illustration = styled.div`
@@ -140,17 +102,12 @@ const Illustration = styled.div`
   justify-content: center;
 
   .search {
-    width: 20rem;
+    width: 50rem;
   }
 
   h1 {
-    font-size: 1.5rem;
     margin-top: 8vh;
     font-weight: 500;
-  }
-
-  @media (max-width: 480px) {
-    display: none;
   }
 `;
 
@@ -197,14 +154,16 @@ export default function SearchPlaces({ celcius }) {
         </Cancel>
 
         <Search>
-          <input
-            type="text"
-            placeholder="Search For Places"
-            className="input-field"
-            value={inputValue}
-            onChange={handleInput}
-            autoFocus={true}
-          />
+          <label htmlFor="input-field">
+            <input
+              type="text"
+              placeholder="Search For Places"
+              className="input-field"
+              value={inputValue}
+              onChange={handleInput}
+              autoFocus={true}
+            />
+          </label>
           <BsSearch className="search-icon" color="blue" />
           <button className="search-button" disabled={!inputValue}>
             Search
@@ -213,7 +172,7 @@ export default function SearchPlaces({ celcius }) {
 
         {loading ? (
           <Spinner />
-        ) : displayCities.length <= 5 ? (
+        ) : displayCities.length <= 7 ? (
           displayCities.map((city, index) => (
             <Button onClick={handleClick} value={city} key={index + 1}>
               {city}{" "}
@@ -221,7 +180,7 @@ export default function SearchPlaces({ celcius }) {
             </Button>
           ))
         ) : (
-          displayCities.splice(0, 5).map((city, index) => (
+          displayCities.splice(0, 7).map((city, index) => (
             <Button onClick={handleClick} value={city} key={index + 1}>
               {city}{" "}
               <MdKeyboardArrowRight size="1.4em" className="arrow-right" />
@@ -231,8 +190,8 @@ export default function SearchPlaces({ celcius }) {
       </Section>
 
       <Illustration>
-        <img src={select} alt="search svg" className="search" />
-        <h1>Please Choose A Location.</h1>
+        <img src={select} alt="" className="search" />
+        <h1>Please Choose A Location</h1>
       </Illustration>
     </Main>
   );

@@ -8,8 +8,8 @@ import * as RiIcons from "react-icons/ri";
 import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
-import testForecast from "../data/MockForecast";
-import useFetchData from "../services/useFetchDataMounted";
+import testForecast from "./data/MockForecast";
+import useFetchData from "./services/useFetchDataMounted";
 
 const HighlightSection = styled.section`
   background: linear-gradient(rgba(0, 0, 0, 20), rgba(0, 0, 0, 0.7)),
@@ -31,27 +31,18 @@ const HighlightSection = styled.section`
 const Section = styled.section`
   display: flex;
   justify-content: space-evenly;
-  flex-wrap: wrap;
   width: 90%;
   padding: 20px;
   margin-top: 8vh;
 
   @media (max-width: 1024px) {
     height: 50vh;
+    flex-wrap: wrap;
   }
 
   @media (max-width: 767px) {
     height: 80vh;
-  }
-
-  @media (max-width: 480px) {
-    height: 70vh;
-    width: 95%;
-  }
-
-  @media (max-width: 320px) {
-    height: 60vh;
-    width: 95%;
+    flex-wrap: wrap;
   }
 `;
 
@@ -98,18 +89,6 @@ const HighlightDiv = styled.div`
     h1 {
       font-size: 1.1rem;
     }
-  }
-
-  @media (max-width: 489px) {
-    width: 42%;
-    height: 18vh;
-    margin: 10px;
-  }
-
-  @media (max-width: 321px) {
-    width: 44%;
-    height: 15vh;
-    margin: 7px;
   }
 `;
 
@@ -320,104 +299,6 @@ const WindDiv = styled.section`
 
         .caption {
           font-size: 1.3rem;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    height: 130vh;
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    .wind-info {
-      .wind-status,
-      .humidity {
-        width: 98%;
-        height: 30vh;
-      }
-
-      .wind-status {
-        .w-speed {
-          .speed-unit {
-            font-size: 1.5rem;
-          }
-        }
-      }
-    }
-
-    .air-info {
-      padding: 0px;
-      .visibility,
-      .pressure {
-        width: 99%;
-        height: 20vh;
-        margin: 10px;
-      }
-    }
-  }
-
-  @media (max-width: 320px) {
-    height: 145vh;
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    .wind-info {
-      .wind-status,
-      .humidity {
-        width: 98%;
-        height: 30vh;
-      }
-
-      .wind-status {
-        .w-speed {
-          .wind-speed {
-            font-size: 4rem;
-            font-weight: 600;
-          }
-          .speed-unit {
-            font-size: 1.5rem;
-          }
-        }
-
-        .speed-direction {
-          .speed-deg {
-            font-size: 1.2rem;
-          }
-        }
-      }
-
-      .humidity {
-        .h-percentage {
-          font-size: 4rem;
-          font-weight: 600;
-        }
-        .p-symbol {
-          font-size: rem;
-        }
-      }
-    }
-
-    .air-info {
-      padding: 0px;
-
-      .visibility,
-      .pressure {
-        h2 {
-          font-size: 1.5em;
-          font-weight: 500;
-        }
-        .figure {
-          font-size: 3rem;
-          font-weight: 600;
-        }
-
-        .caption {
-          font-size: 1.5rem;
         }
       }
     }
