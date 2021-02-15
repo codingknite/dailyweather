@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ErrorBoundary from './ErrorBoundary'
+import ErrorBoundary from './components/ErrorBoundary'
 import App from './App'
 
 ReactDOM.render(
