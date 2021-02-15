@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Weather from "./Weather";
+import Weather from "./components/Weather";
 import useFetchWeatherData from "./services/useFetchWeatherData";
 import "./App.css";
 
@@ -35,6 +35,21 @@ const DegreeToggle = styled.div`
     background: aliceblue;
     color: #14213d;
   }
+
+  @media (max-width: 1024px) {
+    right: 10%;
+    top: 16px;
+  }
+
+  @media (max-width: 480px) {
+    right: 15%;
+    top: 16px;
+  }
+
+  @media (max-width: 320px) {
+    right: 18%;
+    top: 16px;
+  }
 `;
 
 export default function App() {
@@ -46,7 +61,7 @@ export default function App() {
   };
 
   const handleCelcius = () => {
-    setCelcius(true); 
+    setCelcius(true);
   };
 
   if (error) throw error;
