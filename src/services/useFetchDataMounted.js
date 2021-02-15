@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect, useRef } from 'react'
 
 export default function useFetchDataMounted(url, mockdata) {
@@ -11,13 +12,9 @@ export default function useFetchDataMounted(url, mockdata) {
         isMounted.current = true;
         async function fetchData() {
             try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (isMounted.current) setData(data);
-                } else {
-                    throw response;
-                }
+                const response = await axios.get(url);
+                const data = await response.data;
+                if (isMounted.current) setData(data);
             } catch (e) {
                 if (isMounted.current) setError(e)
             } finally {

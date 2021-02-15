@@ -226,8 +226,6 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
 
   const condIcon = condition.weather[0].icon;
 
-  console.log(weatherData);
-
   if (error) throw error;
   if (loading)
     return (

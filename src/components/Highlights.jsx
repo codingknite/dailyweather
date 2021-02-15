@@ -458,9 +458,6 @@ export default function Highlights({ city, weatherData, celcius }) {
   );
   filter5Days.splice(0, 1);
 
-  console.log(testForecast);
-  console.log(filter5Days);
-
   const roundOff = (number) =>
     number > 0 ? Math.floor(number) : number.toFixed(1);
 

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react'
 export default function useFetchSearchLocationData(url, mockdata) {
 
@@ -8,14 +9,9 @@ export default function useFetchSearchLocationData(url, mockdata) {
     useEffect(() => {
         async function fetchWeatherData() {
             try {
-                const response = await fetch(url);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setData(data);
-                } else {
-                    throw response;
-                }
+                const response = await axios.get(url);
+                const data = await response.data;
+                setData(data);
             } catch (error) {
                 setError(error)
             } finally {

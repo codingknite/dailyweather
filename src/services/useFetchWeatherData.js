@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect, useRef } from 'react'
 import MockWeatherData from '../data/MockWeatherData'
 
@@ -14,13 +15,9 @@ export default function useFetchWeatherData(celcius) {
     useEffect(() => {
         async function fetchLocation(url) {
             try {
-                const response = await fetch(url)
-                if (response.ok) {
-                    const data = await response.json()
-                    setCity(data.city)
-                } else {
-                    throw response
-                }
+                const response = await axios.get(url)
+                const data = await response.data
+                setCity(data.city)
             } catch (error) {
                 setError(error)
             }
@@ -29,13 +26,9 @@ export default function useFetchWeatherData(celcius) {
         async function fetchWeatherData(url) {
             isMounted.current = true;
             try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (isMounted.current) setWeatherData(data);
-                } else {
-                    throw response;
-                }
+                const response = await axios.get(url);
+                const data = await response.data;
+                if (isMounted.current) setWeatherData(data);
             } catch (e) {
                 if (isMounted.current) {
                     throw e;
