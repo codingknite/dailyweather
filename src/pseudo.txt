@@ -1,0 +1,6 @@
+TASK
+
+IMPLEMENT DEGREE TOGGLE
+
+PLAN
+    - Implement Using reducers => useReducer()
