@@ -11,7 +11,7 @@ import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
 import * as FaIcons from "react-icons/fa";
-import mockWeatherCond from "../data/mockWeatherCondition";
+import mockWeatherCond from "../data/MockWeatherCondition";
 import useFetchDataMounted from "../services/useFetchDataMounted";
 
 const SpinnerLoader = styled.div`

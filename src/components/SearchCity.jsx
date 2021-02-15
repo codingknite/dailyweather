@@ -1,6 +1,6 @@
 import React from "react";
 import WeatherDisplay from "./WeatherDisplay";
-import mockData from "../data/mockWeatherData";
+import mockData from "../data/MockWeatherData";
 import useFetchData from "../services/useFetchDataUnmounted";
 
 export default function SearchCity({ city, celcius }) {

@@ -8,7 +8,7 @@ import * as RiIcons from "react-icons/ri";
 import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
-import testForecast from "../data/mockForecast";
+import testForecast from "../data/MockForecast";
 import useFetchData from "../services/useFetchDataMounted";
 
 const HighlightSection = styled.section`
