@@ -1,6 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 import MockWeatherData from '../data/MockWeatherData'
 
+
+/*
+TODO FIX BUG 
+https://api.openweathermap.org/data/2.5/weather?q=&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=metric
+
+city not being passed into api query
+
+Todo => Refactor with Typescript
+ */
 export default function useFetchWeatherData(celcius) {
 
     const [city, setCity] = useState("London");
