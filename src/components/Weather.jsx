@@ -1,10 +1,10 @@
 import React from "react";
 import WeatherDisplay from "./WeatherDisplay";
 
-const Weather = ({ weatherData, celcius }) => {
+const Weather = ({ city, weatherData, celcius }) => {
   return (
     <>
-      <WeatherDisplay weatherData={weatherData} celcius={celcius} />
+      <WeatherDisplay city={city} weatherData={weatherData} celcius={celcius} />
     </>
   );
 };
