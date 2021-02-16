@@ -42,8 +42,8 @@ export default function useFetchWeatherData(celcius) {
             }
         }
 
-        fetchLocation("http://ip-api.com/json/");
-        fetchWeatherData(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`)
+        fetchLocation("https://extreme-ip-lookup.com/json/");
+        fetchWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`)
 
     }, [apiKey, city, celcius])
 

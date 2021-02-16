@@ -447,7 +447,7 @@ const WindDiv = styled.section`
 
 export default function Highlights({ city, weatherData, celcius }) {
   const { data: foreCast, error, loading } = useFetchData(
-    `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${
+    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${
       celcius ? "metric" : "imperial"
     }`,
     testForecast
