@@ -56,7 +56,7 @@ const DegreeToggle = styled.div`
 
 export default function App() {
   const [celcius, setCelcius] = useState(true);
-  const { city, weatherData, loading, error } = useFetchWeatherData(celcius);
+  const { weatherData, loading, error } = useFetchWeatherData(celcius);
 
   const handleFaregnHeight = () => {
     setCelcius(false);
@@ -89,7 +89,7 @@ export default function App() {
           </div>
         </DegreeToggle>
       )}
-      <Weather city={city} weatherData={weatherData} celcius={celcius} />
+      <Weather weatherData={weatherData} celcius={celcius} />
     </>
   );
 }

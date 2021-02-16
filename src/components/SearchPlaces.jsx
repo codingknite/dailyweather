@@ -186,7 +186,7 @@ export default function SearchPlaces({ celcius }) {
     setExit(true);
   };
 
-  if (selectedCity) return <SearchCity city={selectedCity} celcius={celcius} />;
+  if (selectedCity) return <SearchCity celcius={celcius} />;
   if (exit) return <App />;
   if (countryError) throw countryError;
   return (

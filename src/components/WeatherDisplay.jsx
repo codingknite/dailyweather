@@ -185,7 +185,7 @@ const HighlightsSection = styled.section`
   }
 `;
 
-const WeatherDisplay = ({ city, weatherData, celcius }) => {
+const WeatherDisplay = ({ weatherData, celcius }) => {
   const [searchPlaces, setSearchPlaces] = useState(false);
   const [searchCurrent, setSearchCurrent] = useState(false);
 
@@ -195,7 +195,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   };
 
   let { data: condition, error, loading } = useFetchDataMounted(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92`,
+    `https://api.openweathermap.org/data/2.5/weather?q=kampala&appid=0d9a54be6ed79bbc56fec4528ad25e92`,
     mockWeatherCond
   );
 
@@ -233,7 +233,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
         <Spinner height="500" width="500" />
       </SpinnerLoader>
     );
-  if (!city) return <Spinner />;
+  // if (!city) return <Spinner />;
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
   return (
@@ -269,7 +269,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
             <span>
               <MdIcons.MdLocationOn />
             </span>{" "}
-            {city + ","} {weatherData.sys.country}
+            {"Kampala,"} {weatherData.sys.country}
           </div>
         </Cond>
       </InfoSection>
@@ -278,7 +278,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
         <Spinner />
       ) : (
         <HighlightsSection>
-          <Highlights city={city} weatherData={weatherData} celcius={celcius} />
+          <Highlights weatherData={weatherData} celcius={celcius} />
         </HighlightsSection>
       )}
     </Main>

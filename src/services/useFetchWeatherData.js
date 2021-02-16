@@ -43,5 +43,5 @@ export default function useFetchWeatherData(celcius) {
 
     }, [])
 
-    return { city, weatherData, loading, error }
+    return { weatherData, loading, error }
 }
