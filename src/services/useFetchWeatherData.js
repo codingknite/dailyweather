@@ -39,9 +39,9 @@ export default function useFetchWeatherData(celcius) {
             }
         }
 
-        fetchWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=kampala&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`)
+        fetchWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=kampala&appid=0d9a54be6ed79bbc56fec4528ad25e92`)
 
-    }, [city, celcius])
+    }, [])
 
     return { city, weatherData, loading, error }
 }
