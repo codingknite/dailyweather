@@ -3,7 +3,7 @@ import MockWeatherData from '../data/MockWeatherData'
 
 export default function useFetchWeatherData(celcius) {
 
-    const [city, setCity] = useState("London");
+    // const [city, setCity] = useState("London");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [weatherData, setWeatherData] = useState(MockWeatherData);
@@ -17,8 +17,8 @@ export default function useFetchWeatherData(celcius) {
                 const location = await fetch("https://extreme-ip-lookup.com/json/");
 
                 if (location.ok) {
-                    const data = await location.json();
-                    if (isMounted.current) setCity(data.city)
+                    // const data = await location.json();
+                    // if (isMounted.current) setCity(data.city)
                     const weather = await fetch(url);
                     if (weather.ok) {
                         const data = await weather.json()
