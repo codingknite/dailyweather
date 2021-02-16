@@ -67,10 +67,8 @@ export default function LoadingError() {
       <div className="svg">
         <img src={support} alt="Support SVG" className="support" />
       </div>
-      <h1 className="text-one">
-        This shouldn't be happening. We're on our way{" "}
-      </h1>
-      <h2 className="text-two">In the mean time try reloading your browser</h2>
+      <p className="text-one">This shouldn't be happening. We're on our way </p>
+      <p className="text-two">In the mean time try reloading your browser</p>
     </Main>
   );
 }
