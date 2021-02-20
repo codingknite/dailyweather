@@ -34,7 +34,7 @@ export default function MockWeatherData() {
         sys: {
             type: 1,
             id: 2642,
-            country: "UG",
+            country: "GB",
             sunrise: 1612324823,
             sunset: 1612368394,
         },

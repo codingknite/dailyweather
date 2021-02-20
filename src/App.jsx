@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Spinner from "./components/Spinner";
 import Weather from "./components/Weather";
 import useFetchWeatherData from "./services/useFetchWeatherData";
 import "./App.css";
@@ -67,28 +68,26 @@ export default function App() {
   };
 
   if (error) throw error;
+  if (loading) return <Spinner />;
   return (
     <>
-      {loading ? (
-        ""
-      ) : (
-        <DegreeToggle>
-          <div>
-            <button
-              className={celcius ? "deg-celcius active" : "deg-celcius"}
-              onClick={handleCelcius}
-            >
-              &deg;C
-            </button>
-            <button
-              className={celcius ? "deg-faregn" : "deg-faregn active"}
-              onClick={handleFaregnHeight}
-            >
-              &deg;F
-            </button>
-          </div>
-        </DegreeToggle>
-      )}
+      <DegreeToggle>
+        <div>
+          <button
+            className={celcius ? "deg-celcius active" : "deg-celcius"}
+            onClick={handleCelcius}
+          >
+            &deg;C
+          </button>
+          <button
+            className={celcius ? "deg-faregn" : "deg-faregn active"}
+            onClick={handleFaregnHeight}
+          >
+            &deg;F
+          </button>
+        </div>
+      </DegreeToggle>
+
       <Weather city={city} weatherData={weatherData} celcius={celcius} />
     </>
   );

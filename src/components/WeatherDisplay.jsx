@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import App from "../App";
-import Spinner from "./Spinner";
 import Highlights from "./Highlights";
 import SearchPlaces from "./SearchPlaces";
 import * as MdIcons from "react-icons/md";
@@ -11,19 +10,6 @@ import * as GiIcons from "react-icons/gi";
 import * as WiIcons from "react-icons/wi";
 import * as mdIcons from "react-icons/io5";
 import * as FaIcons from "react-icons/fa";
-import mockWeatherCond from "../data/MockWeatherCondition";
-import useFetchDataMounted from "../services/useFetchDataMounted";
-
-const SpinnerLoader = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .first-spinner {
-    position: absolute;
-    right: 0;
-  }
-`;
 
 const Main = styled.main`
   background: #001720;
@@ -194,13 +180,6 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
     return `${date[0]}, ${date[2]} ${date[1]}`;
   };
 
-  let { data: condition, error, loading } = useFetchDataMounted(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${
-      celcius ? "metric" : "imperial"
-    }`,
-    mockWeatherCond
-  );
-
   const handleCurrent = () => {
     setSearchCurrent(true);
   };
@@ -226,16 +205,8 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
     "50n": <RiIcons.RiHazeFill size="10em" />,
   };
 
-  const condIcon = condition.weather[0].icon;
+  const condIcon = weatherData.weather[0].icon;
 
-  if (error) throw error;
-  if (loading)
-    return (
-      <SpinnerLoader>
-        <Spinner height="500" width="500" />
-      </SpinnerLoader>
-    );
-  if (!city) return <Spinner />;
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
   return (
@@ -275,14 +246,9 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
           </div>
         </Cond>
       </InfoSection>
-
-      {loading ? (
-        <Spinner />
-      ) : (
-        <HighlightsSection>
-          <Highlights city={city} weatherData={weatherData} celcius={celcius} />
-        </HighlightsSection>
-      )}
+      <HighlightsSection>
+        <Highlights city={city} weatherData={weatherData} celcius={celcius} />
+      </HighlightsSection>
     </Main>
   );
 };

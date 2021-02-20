@@ -1,57 +1,79 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import MockWeatherData from '../data/MockWeatherData'
 
 
-/*
-TODO FIX BUG 
-https://api.openweathermap.org/data/2.5/weather?q=&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=metric
-
-city not being passed into api query
-
-Todo => Refactor with Typescript
- */
 export default function useFetchWeatherData(celcius) {
 
     const [city, setCity] = useState("London");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [weatherData, setWeatherData] = useState(MockWeatherData);
-    const isMounted = useRef(false)
 
 
     useEffect(() => {
-        async function fetchWeatherData(url) {
-            isMounted.current = true;
+        function fetchWeatherData() {
             try {
-                const location = await fetch("https://extreme-ip-lookup.com/json/");
 
-                if (location.ok) {
-                    const data = await location.json();
-                    if (isMounted.current) setCity(data.city)
-                    if (city) {
-                        const weather = await fetch(url);
-                        if (weather.ok) {
-                            const data = await weather.json()
-                            if (isMounted.current) setWeatherData(data)
-                        }
-                    }
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationFailure);
                 } else {
-                    throw location
+                    console.log("Geolocation is not supported by this browser.");
                 }
 
-            } catch (e) {
-                if (isMounted.current) setError(e);
-            } finally {
-                if (isMounted.current) setLoading(false);
-            }
+                async function geolocationSuccess(pos) {
+                    const { latitude, longitude } = pos.coords;
+                    const weatherData = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`);
+                    if (weatherData.ok) {
+                        const data = await weatherData.json()
+                        setWeatherData(data)
+                        setCity(data.name)
+                    } else {
+                        throw weatherData;
+                    }
+                };
 
-            return () => {
-                isMounted.current = false;
+                function geolocationFailure(err) {
+                    console.log("ERROR (" + err.code + "): " + err.message);
+                };
+            } catch (e) {
+                console.error("Error =>>", e)
+                setError(e);
+            } finally {
+                setLoading(false);
             }
         }
-        fetchWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`)
 
-    }, [city, celcius])
+        fetchWeatherData()
+
+    }, [celcius])
 
     return { city, weatherData, loading, error }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // const location = await fetch("https://extreme-ip-lookup.com/json/");
+
+                // if (location.ok) {
+                //     const data = await location.json();
+                //     if (isMounted.current) setCity(data.city)
+                //     if (city) {
+                //         const weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0d9a54be6ed79bbc56fec4528ad25e92&units=${celcius ? "metric" : "imperial"}`);
+                //         if (weather.ok) {
+                //             const data = await weather.json()
+                //             if (isMounted.current) setWeatherData(data)
+                //         }
+                //     }
+                // } else {
+                //     throw location
+                // }
