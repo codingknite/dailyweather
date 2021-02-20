@@ -91,7 +91,15 @@ const Metrics = styled.div`
 `;
 
 const WeatherTemp = styled.span`
-  font-size: 7.5rem;
+  font-size: 7.5vw;
+
+  @media (max-width: 480px) {
+    font-size: 6.5rem;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 5.5rem;
+  }
 `;
 
 const WeatherDeg = styled.div`
@@ -108,10 +116,14 @@ const Cond = styled.div`
   flex-direction: column;
   height: 30vh;
 
-  h1 {
+  p {
     margin-top: 0.5vh;
     font-weight: 500;
     font-size: 2rem;
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
   }
 
   .date-today {
@@ -119,6 +131,10 @@ const Cond = styled.div`
 
     span {
       font-size: 1.2rem;
+
+      @media (max-width: 480px) {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -132,20 +148,6 @@ const Cond = styled.div`
 
   @media (max-width: 768px) {
     height: 40vh;
-
-    h1 {
-      margin-top: 0.5vh;
-      font-weight: 500;
-      font-size: 2rem;
-    }
-
-    .date-today {
-      margin-top: 21vh;
-
-      span {
-        font-size: 1.2rem;
-      }
-    }
 
     .location {
       margin-top: 1.8vh;
@@ -185,24 +187,24 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   };
 
   const weatherIcons = {
-    "01d": <IoIcons.IoMdSunny size="10em" />,
-    "01n": <IoIcons.IoMdSunny size="10em" />,
-    "02d": <IoIcons.IoIosPartlySunny size="10em" />,
-    "02n": <IoIcons.IoIosPartlySunny size="10em" />,
-    "03d": <FaIcons.FaCloud size="10em" />,
-    "03n": <FaIcons.FaCloud size="10em" />,
-    "04d": <WiIcons.WiCloudy size="10em" />,
-    "04n": <WiIcons.WiCloudy size="10em" />,
-    "09d": <FaIcons.FaCloudRain size="10em" />,
-    "09n": <FaIcons.FaCloudRain size="10em" />,
-    "10d": <GiIcons.GiRaining size="10em" />,
-    "10n": <GiIcons.GiRaining size="10em" />,
-    "11d": <mdIcons.IoThunderstormSharp size="10em" />,
-    "11n": <mdIcons.IoThunderstormSharp size="10em" />,
-    "13d": <GiIcons.GiSnowing size="10em" />,
-    "13n": <GiIcons.GiSnowing size="10em" />,
-    "50d": <RiIcons.RiHazeFill size="10em" />,
-    "50n": <RiIcons.RiHazeFill size="10em" />, 
+    "01d": <IoIcons.IoMdSunny size="9rem" />,
+    "01n": <IoIcons.IoMdSunny size="9rem" />,
+    "02d": <IoIcons.IoIosPartlySunny size="9rem" />,
+    "02n": <IoIcons.IoIosPartlySunny size="9rem" />,
+    "03d": <FaIcons.FaCloud size="9rem" />,
+    "03n": <FaIcons.FaCloud size="9rem" />,
+    "04d": <WiIcons.WiCloudy size="9rem" />,
+    "04n": <WiIcons.WiCloudy size="9rem" />,
+    "09d": <FaIcons.FaCloudRain size="9rem" />,
+    "09n": <FaIcons.FaCloudRain size="9rem" />,
+    "10d": <GiIcons.GiRaining size="9rem" />,
+    "10n": <GiIcons.GiRaining size="9rem" />,
+    "11d": <mdIcons.IoThunderstormSharp size="9rem" />,
+    "11n": <mdIcons.IoThunderstormSharp size="9rem" />,
+    "13d": <GiIcons.GiSnowing size="9rem" />,
+    "13n": <GiIcons.GiSnowing size="9rem" />,
+    "50d": <RiIcons.RiHazeFill size="9rem" />,
+    "50n": <RiIcons.RiHazeFill size="9rem" />,
   };
 
   const condIcon = weatherData.weather[0].icon;
@@ -210,7 +212,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
   return (
-    <Main> 
+    <Main>
       <InfoSection>
         <Navigation>
           <button
@@ -234,7 +236,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
         </Metrics>
 
         <Cond>
-          <h1>{weatherData.weather[0].description}</h1>
+          <p>{weatherData.weather[0].description}</p>
           <div className="date-today">
             <span>Today • </span> <span>{formatDate()}</span>
           </div>

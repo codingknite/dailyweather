@@ -64,7 +64,7 @@ const HighlightDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 20px;
 
   h1 {
     font-size: 1.1rem;
@@ -119,7 +119,7 @@ const WindDiv = styled.section`
   padding: 20px;
   margin-top: 5vh;
 
-  h1 {
+  p {
     font-weight: 500;
     font-size: 2rem;
     margin-left: 50px;
@@ -142,7 +142,7 @@ const WindDiv = styled.section`
       justify-content: space-around;
       align-items: center;
       padding: 10px;
-      border-radius: 3px;
+      border-radius: 20px;
 
       h2 {
         font-size: 1.5rem;
@@ -153,7 +153,7 @@ const WindDiv = styled.section`
     .wind-status {
       .w-speed {
         .wind-speed {
-          font-size: 8rem;
+          font-size: 7rem;
           font-weight: 600;
         }
         .speed-unit {
@@ -170,7 +170,7 @@ const WindDiv = styled.section`
 
     .humidity {
       .h-percentage {
-        font-size: 8rem;
+        font-size: 7rem;
         font-weight: 600;
       }
       .p-symbol {
@@ -196,7 +196,7 @@ const WindDiv = styled.section`
       justify-content: space-around;
       align-items: center;
       padding: 10px;
-      border-radius: 3px;
+      border-radius: 20px;
 
       h2 {
         font-size: 1.5rem;
@@ -222,12 +222,6 @@ const WindDiv = styled.section`
     width: 100%;
     height: 70vh;
     margin-top: 3vh;
-
-    h1 {
-      font-weight: 500;
-      font-size: 2.5rem;
-      margin-left: 50px;
-    }
 
     .wind-info {
       .wind-status,
@@ -257,8 +251,8 @@ const WindDiv = styled.section`
   @media (max-width: 767px) {
     height: 160vh;
 
-    h1 {
-      font-size: 2.2rem;
+    p {
+      font-size: 1.8rem;
       margin-left: 30px;
     }
 
@@ -277,7 +271,7 @@ const WindDiv = styled.section`
       .wind-status {
         .w-speed {
           .wind-speed {
-            font-size: 7rem;
+            font-size: 6rem;
           }
           .speed-unit {
             font-size: 1.8rem;
@@ -293,10 +287,14 @@ const WindDiv = styled.section`
 
       .humidity {
         .h-percentage {
-          font-size: 7rem;
+          font-size: 6rem;
         }
         .p-symbol {
           font-size: 1.8rem;
+        }
+
+        .progress-bar {
+          border-radius: 20px;
         }
       }
     }
@@ -328,8 +326,8 @@ const WindDiv = styled.section`
   @media (max-width: 480px) {
     height: 155vh;
 
-    h1 {
-      font-size: 1.8rem;
+    p {
+      font-size: 1.6rem;
     }
 
     .wind-info {
@@ -346,7 +344,7 @@ const WindDiv = styled.section`
       .wind-status {
         .w-speed {
           .wind-speed {
-            font-size: 6.5rem;
+            font-size: 6rem;
           }
           .speed-unit {
             font-size: 1.5rem;
@@ -362,7 +360,7 @@ const WindDiv = styled.section`
 
       .humidity {
         .h-percentage {
-          font-size: 6.5rem;
+          font-size: 6rem;
         }
         .p-symbol {
           font-size: 1.8rem;
@@ -383,8 +381,8 @@ const WindDiv = styled.section`
   @media (max-width: 320px) {
     height: 160vh;
 
-    h1 {
-      font-size: 2rem;
+    p {
+      font-size: 1.5rem;
     }
 
     .wind-info {
@@ -397,7 +395,7 @@ const WindDiv = styled.section`
       .wind-status {
         .w-speed {
           .wind-speed {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 600;
           }
           .speed-unit {
@@ -414,7 +412,7 @@ const WindDiv = styled.section`
 
       .humidity {
         .h-percentage {
-          font-size: 4rem;
+          font-size: 5rem;
           font-weight: 600;
         }
         .p-symbol {
@@ -533,7 +531,7 @@ export default function Highlights({ city, weatherData, celcius }) {
           <Spinner />
         ) : (
           <>
-            <h1>Today's Highlights</h1>
+            <p>Today's Highlights</p>
             <section className="wind-info">
               <div className="wind-status">
                 <h2>Wind Speed</h2>
@@ -564,6 +562,7 @@ export default function Highlights({ city, weatherData, celcius }) {
                   <progress
                     value={roundOff(weatherData.main.humidity)}
                     max="100"
+                    className="progress-bar"
                   ></progress>
                   {` ${100}%`}
                 </div>
