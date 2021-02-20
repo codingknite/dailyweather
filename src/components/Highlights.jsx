@@ -292,10 +292,6 @@ const WindDiv = styled.section`
         .p-symbol {
           font-size: 1.8rem;
         }
-
-        .progress-bar {
-          border-radius: 20px;
-        }
       }
     }
 
@@ -562,7 +558,6 @@ export default function Highlights({ city, weatherData, celcius }) {
                   <progress
                     value={roundOff(weatherData.main.humidity)}
                     max="100"
-                    className="progress-bar"
                   ></progress>
                   {` ${100}%`}
                 </div>
