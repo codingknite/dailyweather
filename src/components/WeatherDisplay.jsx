@@ -202,7 +202,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
     "13d": <GiIcons.GiSnowing size="10em" />,
     "13n": <GiIcons.GiSnowing size="10em" />,
     "50d": <RiIcons.RiHazeFill size="10em" />,
-    "50n": <RiIcons.RiHazeFill size="10em" />,
+    "50n": <RiIcons.RiHazeFill size="10em" />, 
   };
 
   const condIcon = weatherData.weather[0].icon;
@@ -210,7 +210,7 @@ const WeatherDisplay = ({ city, weatherData, celcius }) => {
   if (searchPlaces) return <SearchPlaces celcius={celcius} />;
   if (searchCurrent) return <App />;
   return (
-    <Main>
+    <Main> 
       <InfoSection>
         <Navigation>
           <button
