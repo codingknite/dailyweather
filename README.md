@@ -4,7 +4,7 @@
 
 Daily Weather is a weather application that I built to practice react state management working with APIs.
 
-This application was also a perfect way to procctice new react concepts that I'd learnt such as custom hooks and useRef. I made multiple API calls and utilized the OpenWeatherMap API to get the weather data based on the city which I also obtained via a lookup API.
+This application was also a perfect way to practice new React concepts that I'd learnt such as custom hooks and useRef. I made multiple API calls and utilized the OpenWeatherMap API to get the weather data based on the city which I also obtained via a lookup API.
 
 ## Tech Stack
 
@@ -15,17 +15,17 @@ For this project I used:
 
 ## Project Pupose and Goal
 
-My main goal for this project was to understand some of React's advnced concepts. I created this project after taking the React State Management course by Cory House via Pluralsight.
+My main goal for this project was to understand some of React's advanced concepts. I created this project after taking the React State Management course by Cory House via Pluralsight.
 
 This project was perfect for me to use the newly found concepts I'd learnt in the course.
 
-I also wanted the app to be visually appealing and mobile responseive. To achieve this I decided to give styled-components a shot. It was fairly easy to get started with it but I'm sure there's alot of stuff I couldv'e done better.
+I also wanted the app to be visually appealing and mobile responsive. To achieve this I decided to give styled-components a shot. It was fairly easy to get started with but I'm sure there's alot of stuff I could've done better.
 
 This project was also one of the projects listed under the Frontend path at [devchallenges.io](https://devchallenges.io)
 
 ## Challenges and Thought Process
 
-The implementation of this kind of application in general is fairly easy. However this perticular was a little bit more challenging because of what I wanted to achieve.
+The implementation of this kind of application in general is fairly easy. However this particular one  was a little bit more challenging because of what I wanted to achieve.
 
 Here are the user stories I tried to achieve:
 
@@ -43,13 +43,13 @@ Here are the user stories I tried to achieve:
 
 Most of the above user stories were fairly easy to implement once the weather data was available.
 
-However, some the data was unrelated and thus required making multiple API calls. For example I needed to make an API all to fetch the data for the cuurent weather info where as I needed to make a different API call to get the weather forecast.
+However, some the data was unrelated and thus required making multiple API calls. For example I needed to make an API all to fetch the data for the curent weather info where as I needed to make a different API call to get the weather forecast.
 
 Different components also needed related data which prompted me to lift state. This quickly became an ineffective solution because some components were receiving data that they did not need but the alternatives were overboard for such a project so I kept that implementation.
 
-I also needed to populate the list of cities as the user typed letters pertaining to the city of interest. This required me to have the list of cities before hand so the user could see diiferent options as they searched for the desired location.
+I also needed to populate the list of cities as the user typed letters pertaining to the city of interest. This required me to have the list of cities before hand so the user could see diferent options as they searched for the desired location.
 
-The most challenging part of this project was of course the API calls and managing them.
+The most challenging part of this project was of course making the API calls and managing them.
 
 If you have any critism over what I did or what I could've done better please let me know.
 
